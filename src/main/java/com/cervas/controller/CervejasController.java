@@ -3,10 +3,10 @@ package com.cervas.controller;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cervas.model.Cerveja;
 
@@ -14,20 +14,32 @@ import com.cervas.model.Cerveja;
 public class CervejasController {
 	
 	@RequestMapping("/cervejas/novo")
-	public String novo(Model model) {
-		model.addAttribute(new Cerveja());
+	//A view precisa do objeto Cerveja
+	public String novo(Cerveja cerveja) {
 		return "cerveja/CadastroCerveja";
 	}
+
+	/**
+	 * 
+	 * @param cerveja é o mesmo que o Request request, só que específico.
+	 * @param result BindingResult é um objeto que guarda infomações de erro
+	 * @return
+	 */
 	
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
-	public String cadastrar(@Valid Cerveja cerveja, BindingResult result) {
+	public String cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
 		
-		// Result é um objeto que guarda infomações de erro
 		if (result.hasErrors()) {
-			return "cerveja/CadastroCerveja";
+			return novo(cerveja);
 		}
-		System.out.println(">>>> sku:" +cerveja.getSku());
-		return "cerveja/CadastroCerveja";
+		
+		attributes.addFlashAttribute("mensagem" , "Cerveja salva com Sucesso");
+		return "redirect:/cervejas/novo";
+	}
+
+	@RequestMapping("/cervejas/cadastro")
+	public String cadastro() {
+		return "cerveja/cadastro-produto";
 	}
 
 }
