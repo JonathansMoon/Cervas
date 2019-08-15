@@ -1,33 +1,91 @@
 <!DOCTYPE html>
-<html xmlns="https://www.thymeleaf.org">
+<html 
+	xmlns="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}">
 
+<head>
+	<title>Cadastro</title>
+	<link rel="stylesheet" type="text/css" href="/custom/stylesheets/showmore-default.css"/>
+</head>
 <body>
-	<h1>Olá! Thymeleaf configurado!</h1>
-	
-	<form method="POST" th:object="${cerveja}">
-	
-	<!--<span th:text="${#fields.hasAnyErrors()}"></span> /-->		
-		<div th:each="erro : ${#fields.detailedErrors()}">
-			<span th:text ="${erro.message}"></span>
+	<section class="aw-layout-content  js-content" layout:fragment="conteudo">
+
+		<!--Titulo do cadastro-->
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de produto
+				</h1>
+			</div>
 		</div>
-		<span th:text="${mensagem}"></span>
-		<br>
-	
-		<label for="sku">SKU</label>
-		<input type="text" id="sku" th:field="*{sku}">
-		<br>
-		
-		<label for="nome">Nome</label>
-		<input type="text" id="nome" th:field="*{nome}">
-		<br>
-		
-		<label for="descricao">Descricão</label>
-		<textarea id="descricao" cols="30" rows="3" th:field="*{descricao}"></textarea>
-		<br>
-		
-		<input type="submit" value="Salvar">
-	</form>
-	
+
+		<div class="container-fluid">
+
+			<form method="POST" th:object="${cerveja}"  class="form-vertical  js-form-loading">
+				
+				<!--Bloco de alerta de Erro-->
+				<div id="boxErro" class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+					<button id="fecharErro" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div th:each="erro : ${#fields.detailedErrors()}">
+						<i class="fa  fa-exclamation-circle"></i> 
+						<span th:text ="${erro.message}"></span>
+					</div>
+				</div>
+
+				<!--Bloco de Sucesso-->
+				<div class="alert alert-success" th:if="${mensagem}">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<span th:text="${mensagem}"></span>
+				</div>
+
+				<div class="form-group col-sm-2">
+					<label for="sku">SKU</label>
+					<input type="text" id="sku" class="form-control" th:field="*{sku}">
+				</div>
+				<div class="form-group col-sm-10">
+					<label for="nome">Nome</label>
+					<input type="text" id="nome" class="form-control" th:field="*{nome}">
+				</div>
+
+				<div class="form-group col-sm-12">
+					<label for="descricao">Descricão</label>
+					<textarea id="descricao" class="form-control" rows="3" th:field="*{descricao}"></textarea>
+				</div>
+
+				<div class="form-group col-sm-3">
+					<label for="estilo">Estilo</label>
+					<select name="estilo" id="estilo" class="form-control">
+						<option value="">Selecionar estilo</option>
+					</select>
+				</div>
+
+				<div class="form-group col-sm-3">
+					<label for="sabor">Sabor</label>
+					<select name="sabor" id="sabor" class="form-control">
+						<option value="">Selecionar sabor</option>
+					</select>
+				</div>
+
+				<div class=" form-group col-sm-3">
+					<label for="teorAlcoolico">Teor Alcoolico</label>
+					<div class="input-group">
+						<input id="teorAlcoolico" name="" type="text" class="form-control"/>
+					<div class="input-group-addon">%</div>
+					</div>
+				</div>
+
+				<input type="submit" value="Salvar">
+			</form>
+
+		</div>	
+	</section>
+
+	<div layout:fragment="javascripts">
+		<script src="/custom/javascripts/moreText.js"></script>	
+		<script src="/custom/javascripts/jquery.show-more.js"></script>	
+	</div>	
+
 </body>
 
 </html>
