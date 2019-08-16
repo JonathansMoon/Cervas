@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#boxErro').showMore({
+    $('#js-boxErro').showMore({
     minheight: 80,
     buttontxtmore: '<i class="fa fa-angle-double-down"></i>',
     buttontxtless: '<i class="fa fa-angle-double-up"></i>',
