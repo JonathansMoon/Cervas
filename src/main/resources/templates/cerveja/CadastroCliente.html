@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html 
+	xmlns="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<head>
+	<title>Cadastro de cliente</title>
+	<link rel="stylesheet" type="text/css" href="/custom/stylesheets/showmore-default.css"/>
+	<link rel="stylesheet" type="text/css" href="/custom/stylesheets/cervas.css"/>
+</head>
+<body>
+	<section class="aw-layout-content  js-content" layout:fragment="conteudo">
+
+		<!--Titulo do cadastro-->
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de cliente
+				</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<form method="POST" th:object="${cerveja}"  class="form-vertical  js-form-loading">
+				
+				<!--Bloco de alerta de Erro
+				<div id="js-boxErro" class="alert  alert-danger  alert-dismissible" role="alert">
+					<button id="fecharErro" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div>
+						<i class="fa  fa-exclamation-circle"></i> 
+						<span></span>
+					</div>
+				</div>
+-->
+				<!--Bloco de Sucesso
+				<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<span></span>
+				</div>
+-->
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<label for="nome">Nome</label>
+						<input type="text" id="nome" class="form-control">
+					</div>
+				</div>	
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="tipoPessoa">Tipo pessoa</label>
+						<div>
+							<div class="radio radio-inline">
+								<input type="radio" name="tipoPessoa">
+								<label>Física</label>
+							</div>
+							<div class="radio radio-inline">
+								<input type="radio" name="tipoPessoa">
+								<label>Jurídica</label>
+							</div>
+						</div>	
+					</div>
+
+					<div class="form-group  col-sm-4">
+						<label for="cpf">CPF/CNPJ</label>
+						<input type="text" class="form-control">
+					</div>
+					<div class=" form-group col-sm-4">
+						<label for="telefone">Telefone</label>
+						<input id="telefone" name="telefone" type="text" class="form-control"/>
+					</div>
+				</div>	
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<label for="email">Email</label>
+						<input type="text" id="email" class="form-control">
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class=" form-group col-sm-4">
+						<label for="cep">CEP</label>
+						<input id="cep" name="cep" type="text" class="form-control"/>
+					</div>
+
+					<div class="form-group col-sm-4">
+						<label for="estado">Estado</label>
+						<input type="text" id="estado" class="form-control">
+					</div>
+
+					<div class="form-group col-sm-4">
+						<label for="cidade">Cidade</label>
+						<input type="text" id="cidade" class="form-control">
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class=" form-group col-sm-4">
+						<label for="logradouro">Logradouro</label>
+						<input id="logradouro" name="logradouro" type="text" class="form-control"/>
+					</div>
+
+					<div class="form-group col-sm-4">
+						<label for="numero">Número</label>
+						<input type="text" id="numero" class="form-control">
+					</div>
+
+					<div class="form-group col-sm-4">
+						<label for="complemento">Complemento</label>
+						<input type="text" id="complemento" class="form-control">
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+			</form>
+
+		</div>	
+
+		<div th:replace="modal/cadastroRapidoEstilo :: modal" ></div>
+	</section>
+
+	<th:block layout:fragment="javascripts">
+		<!--Expandir menssagem de erro - Sanfona-->
+		<script src="/custom/javascripts/moreText.js"></script>	
+		<script src="/vendors/javascripts/jquery.show-more.js"></script>
+		<!--Mascaras de Input-->
+		<script src="/custom/javascripts/maskText.js"></script>
+		<script src="/vendors/javascripts/jquery.maskMoney.min.js"></script>	
+	</th:block>	
+
+</body>
+
+</html>

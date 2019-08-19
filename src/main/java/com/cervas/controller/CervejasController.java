@@ -2,6 +2,8 @@ package com.cervas.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +14,16 @@ import com.cervas.model.Cerveja;
 
 @Controller
 public class CervejasController {
+
+	private static final Logger Logger = LoggerFactory.getLogger(CervejasController.class);
 	
 	@RequestMapping("/cervejas/novo")
 	//A view precisa do objeto Cerveja
 	public String novo(Cerveja cerveja) {
+
+		Logger.error("Aqui é um log de Error!");
+		Logger.info("Aqui é um log de Info!");
+
 		return "cerveja/CadastroCerveja";
 	}
 
@@ -35,6 +43,18 @@ public class CervejasController {
 		
 		attributes.addFlashAttribute("mensagem" , "Cerveja salva com Sucesso");
 		return "redirect:/cervejas/novo";
+	}
+
+	@RequestMapping("/clientes/novo")
+	//A view precisa do objeto Cerveja
+	public String novoCliente() {
+		return "cerveja/CadastroCliente";
+	}
+
+	@RequestMapping("/usuarios/novo")
+	//A view precisa do objeto Cerveja
+	public String novoUsuario() {
+		return "cerveja/CadastroUsuario";
 	}
 
 }
