@@ -36,6 +36,11 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
       <scope>compile</scope>
     </dependency>
+    <!-- Layout Thymeleaf -->
+    <dependency>
+	  <groupId>nz.net.ultraq.thymeleaf</groupId>
+	  <artifactId>thymeleaf-layout-dialect</artifactId>
+	</dependency>
   </dependencies>
   <build>
     <plugins>
