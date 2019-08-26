@@ -7,23 +7,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cervas.model.Cerveja;
-import com.cervas.repository.Cervejas;
+import com.cervas.model.Origem;
+import com.cervas.model.Sabor;
+import com.cervas.repository.Estilos;
 
 @Controller
 public class CervejasController {
 	
 	@Autowired
-	private Cervejas cervejas;
+	private Estilos Estilos;
 	
 	@RequestMapping("/cervejas/novo")
 	//A view precisa do objeto Cerveja
-	public String novo(Cerveja cerveja) {
-		cervejas.findAll();
-		
-		return "cerveja/CadastroCerveja";
+	public ModelAndView novo(Cerveja cerveja) {
+		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
+		mv.addObject("sabores", Sabor.values());
+		mv.addObject("estilos",Estilos.findAll());
+		mv.addObject("origens", Origem.values());
+		return mv;
 	}
 
 	/**
@@ -34,14 +39,16 @@ public class CervejasController {
 	 */
 	
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
-	public String cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
+	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
 		
-		if (result.hasErrors()) {
+		/*if (result.hasErrors()) {
 			return novo(cerveja);
-		}
+		}*/
 		
 		attributes.addFlashAttribute("mensagem" , "Cerveja salva com Sucesso");
-		return "redirect:/cervejas/novo";
+		System.out.println(">>> Sku: " + cerveja.getSku());
+		System.out.println(">>> Sku: " + cerveja.getEstilo());
+		return new ModelAndView("redirect:/cervejas/novo");
 	}
 
 	@RequestMapping("/clientes/novo")
