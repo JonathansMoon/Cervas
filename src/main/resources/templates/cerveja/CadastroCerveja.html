@@ -26,19 +26,10 @@
 			<form method="POST" th:object="${cerveja}"  class="form-vertical  js-form-loading">
 				
 				<!--Bloco de alerta de Erro-->
-				<div id="js-boxErro" class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
-					<button id="fecharErro" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div th:each="erro : ${#fields.detailedErrors()}">
-						<i class="fa  fa-exclamation-circle"></i> 
-						<span th:text ="${erro.message}"></span>
-					</div>
-				</div>
+				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
 
 				<!--Bloco de Sucesso-->
-				<div class="alert alert-success" th:if="${mensagem}">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<span th:text="${mensagem}"></span>
-				</div>
+				<th:block th:include="fragments/MensagemSucesso"></th:block>
 
 				<div class="row">
 					<div class="form-group col-sm-2">
@@ -61,7 +52,7 @@
 					<div class="form-group col-sm-3">
 						<label for="estilo">Estilo</label>
 						<div class="cv-field-action">
-							<select id="estilo" class="form-control">
+							<select id="estilo" class="form-control" th:field="*{estilo}">
 								<option value="">Selecionar estilo</option>
 								<option th:each="estilo : ${estilos}" th:value="${estilo.codigo}" th:text="${estilo.nome}"></option>
 							</select>

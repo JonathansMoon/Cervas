@@ -1,0 +1,5 @@
+<!--Bloco de Sucesso-->
+<div class="alert alert-success" th:if="${not #strings.isEmpty(mensagem)}" th:fragment="mensagemSucesso">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span th:text="${mensagem}"></span>
+</div>

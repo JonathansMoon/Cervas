@@ -14,19 +14,23 @@ import com.cervas.model.Cerveja;
 import com.cervas.model.Origem;
 import com.cervas.model.Sabor;
 import com.cervas.repository.Estilos;
+import com.cervas.service.CadastroCervejaService;
 
 @Controller
 public class CervejasController {
 	
 	@Autowired
 	private Estilos Estilos;
+
+	@Autowired
+	private CadastroCervejaService cadastroCervejaService;
 	
 	@RequestMapping("/cervejas/novo")
 	//A view precisa do objeto Cerveja
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
 		mv.addObject("sabores", Sabor.values());
-		mv.addObject("estilos",Estilos.findAll());
+		mv.addObject("estilos", Estilos.findAll());
 		mv.addObject("origens", Origem.values());
 		return mv;
 	}
@@ -41,13 +45,12 @@ public class CervejasController {
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
 		
-		/*if (result.hasErrors()) {
+		if (result.hasErrors()) {
 			return novo(cerveja);
-		}*/
+		}
 		
+		cadastroCervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem" , "Cerveja salva com Sucesso");
-		System.out.println(">>> Sku: " + cerveja.getSku());
-		System.out.println(">>> Sku: " + cerveja.getEstilo());
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
 
