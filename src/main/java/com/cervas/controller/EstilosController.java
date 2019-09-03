@@ -19,19 +19,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/estilos")
 public class EstilosController {
 
     @Autowired
     private CadastroEstiloService cadastroEstiloService;
 
-    @RequestMapping("/estilos/novo")
+    @RequestMapping("/novo")
     public ModelAndView novo(Estilo estilo) {
         
         ModelAndView mv = new ModelAndView("cerveja/CadastroEstilo");
         return mv;
     }
 
-    @RequestMapping(value = "/estilos/novo", method = RequestMethod.POST)
+    @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Estilo estilo, BindingResult result, RedirectAttributes attributes) {
 
         System.out.println(estilo.getNome());
@@ -50,7 +51,7 @@ public class EstilosController {
         return new ModelAndView("redirect:/estilos/novo");
     }
     
-    @RequestMapping(value = "/estilos", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE})
     // @RequestBody pega o corpo da requisição e transforma em objeto Estilo
     // @ResponseBody Envia mensagem ou variavel como retorno da requisição
     public @ResponseBody ResponseEntity<?> salvar(@RequestBody @Valid Estilo estilo, BindingResult result) {

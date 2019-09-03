@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/cervejas")
 public class CervejasController {
 	
 	@Autowired
@@ -25,7 +26,7 @@ public class CervejasController {
 	@Autowired
 	private CadastroCervejaService cadastroCervejaService;
 	
-	@RequestMapping("/cervejas/novo")
+	@RequestMapping("/novo")
 	//A view precisa do objeto Cerveja no Form
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
@@ -42,7 +43,7 @@ public class CervejasController {
 	 * @return
 	 */
 	
-	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {

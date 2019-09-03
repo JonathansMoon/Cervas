@@ -1,44 +1,54 @@
-$(function(){
-	
-	var meuModal 	= 	$('#modalCadastroRapidoEstilo');
-	var botaoSalvar =	meuModal.find('.js-modal-cadastro-estilo-salvar-btn');
-	var meuForm		=	meuModal.find('form');
-	meuForm.on('submit', function(event) {event.preventDefault()});
-	var meuUrl		=	meuForm.attr('action');
-	var inputNomeEstilo	=	$('#nomeEstilo');
-	var containerMensagemErro = meuModal.find('.js-mensagem-cadastro-rapido-estilo');
-	
-	//Ao carregar o modal chama a função onModalShow
-	meuModal.on('shown.bs.modal', onModalShow);
-	meuModal.on('hide.bs.modal', onModalClose);
-	botaoSalvar.on('click', onBotaoSalvarClick);
-	
+var Cervas = Cervas || {};
+
+Cervas.EstiloCadastroRapido = (function(){
+
+	// Método construtor, para as inicializações ficarem visíveis pra todo projeto
+	function EstiloCadastroRapido(){
+		this.meuModal 				= 	$('#modalCadastroRapidoEstilo');
+		this.botaoSalvar 			=	this.meuModal.find('.js-modal-cadastro-estilo-salvar-btn');
+		this.meuForm				=	this.meuModal.find('form');
+		this.meuUrl					=	this.meuForm.attr('action');
+		this.inputNomeEstilo		=	$('#nomeEstilo');
+		this.containerMensagemErro 	= 	this.meuModal.find('.js-mensagem-cadastro-rapido-estilo');
+	}
+
+	EstiloCadastroRapido.prototype.iniciar = function() {
+		this.meuForm.on('submit', function(event) {event.preventDefault()});
+		//Ao carregar o modal chama a função onModalShow
+		this.meuModal.on('shown.bs.modal', onModalShow.bind(this));
+		this.meuModal.on('hide.bs.modal', onModalClose.bind(this));
+		this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
+
+	}
+
 	function onModalShow() {
-		inputNomeEstilo.focus();
+		this.inputNomeEstilo.focus();
 	}
-	
+
 	function onModalClose() {
-		inputNomeEstilo.val('');
+		this.inputNomeEstilo.val('');
+		this.containerMensagemErro.addClass('hidden');
+		this.meuForm.find('.form-group').removeClass('has-error');
 	}
-	
+
 	function onBotaoSalvarClick() {
-		var nomeEstilo	=	inputNomeEstilo.val().trim();
+		var nomeEstilo	=	this.inputNomeEstilo.val().trim();
 		$.ajax({
-			url			:	meuUrl,
+			url			:	this.meuUrl,
 			method		:	'POST',
 			contentType	: 	'application/json',
 			data		:	JSON.stringify({'nome': nomeEstilo}),
-			error		:	onErroSalvandoEstilo,
-			success		:	onEstiloSalvo
+			error		:	onErroSalvandoEstilo.bind(this),
+			success		:	onEstiloSalvo.bind(this)
 		});
 	}
 	
 	function onErroSalvandoEstilo(obj) {
 		var mensagemErro = obj.responseText;
-		containerMensagemErro.removeClass('hidden');
-		containerMensagemErro.html('<span>' + mensagemErro + '</span>')
+		this.containerMensagemErro.removeClass('hidden');
+		this.containerMensagemErro.html('<span>' + mensagemErro + '</span>')
 		console.log(mensagemErro);
-		meuForm.find('.form-group').addClass('has-error');
+		this.meuForm.find('.form-group').addClass('has-error');
 	}
 	
 	// Salva e adiciona um novo estilo ao select combo
@@ -46,7 +56,28 @@ $(function(){
 		var comboEstilo	=	$('#estilo');
 		comboEstilo.append('<option value=' + estilo.codigo + '>' + estilo.nome + '</option>');
 		comboEstilo.val(estilo.codigo);
-		meuModal.modal('hide');
+		this.meuModal.modal('hide');
 	}
+
+	return EstiloCadastroRapido;
+
+}());
+
+$(function() {
+	var estiloCadastroRapido = new Cervas.EstiloCadastroRapido();
+	estiloCadastroRapido.iniciar();
+});
+
+
+$(function(){
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 });
