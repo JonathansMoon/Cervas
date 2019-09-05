@@ -11,6 +11,7 @@ import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.standard.StandardDialect;
 
 import com.cervas.thymeleaf.processor.ClassForErrorAttributeTagProcessor;
+import com.cervas.thymeleaf.processor.MessageElementTagProcessor;
 @Configuration
 public class CervasDialect extends AbstractProcessorDialect{
 
@@ -23,6 +24,7 @@ public class CervasDialect extends AbstractProcessorDialect{
 	public Set<IProcessor> getProcessors(final String dialectPrefix) {
 		final Set<IProcessor> processadores = new HashSet<>();
 		processadores.add(new ClassForErrorAttributeTagProcessor(dialectPrefix));	
+		processadores.add(new MessageElementTagProcessor(dialectPrefix));
 		return processadores;
 	}
 	

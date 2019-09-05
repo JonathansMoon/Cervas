@@ -28,10 +28,7 @@
 			<form method="POST" th:object="${cerveja}"  class="form-vertical  js-form-loading">
 				
 				<!--Bloco de alerta de Erro-->
-				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
-
-				<!--Bloco de Sucesso-->
-				<th:block th:include="fragments/MensagemSucesso"></th:block>
+				<cervas:message/>
 
 				<div class="row">
 					<div class="form-group col-sm-2" cervas:classforerror="sku">
@@ -51,7 +48,7 @@
 					</div>	
 				</div>	
 				<div class="row">
-					<div class="form-group col-sm-3" cervas:classforerror="estilo.codigo">
+					<div class="form-group col-sm-3" cervas:classforerror="estilo">
 						<label for="estilo" class="control-label">Estilo</label>
 						<div class="cv-field-action">
 							<select id="estilo" class="form-control" th:field="*{estilo}">

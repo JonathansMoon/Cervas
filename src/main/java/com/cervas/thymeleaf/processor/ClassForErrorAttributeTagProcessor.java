@@ -8,6 +8,7 @@ import org.thymeleaf.processor.element.IElementTagStructureHandler;
 import org.thymeleaf.spring5.util.FieldUtils;
 import org.thymeleaf.templatemode.TemplateMode;
 
+//Cria novo atributo cervas:classforerror
 public class ClassForErrorAttributeTagProcessor extends AbstractAttributeTagProcessor{
 
 
