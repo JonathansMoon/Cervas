@@ -1,7 +1,6 @@
 package com.cervas.thymeleaf.processor;
 
 import org.thymeleaf.context.ITemplateContext;
-
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -13,13 +12,10 @@ public class MessageElementTagProcessor extends AbstractElementTagProcessor{
 	
 	private static final String TAG_NAME = "message";
 	private static final int PRECEDENCIA = 1000;
-	
 
 	public MessageElementTagProcessor(final String dialectPrefix) {
 		super(TemplateMode.HTML, dialectPrefix, TAG_NAME, true, null, false, PRECEDENCIA);
-
 	}
-
 
 	@Override
 	protected void doProcess(
@@ -33,11 +29,6 @@ public class MessageElementTagProcessor extends AbstractElementTagProcessor{
 		model.add(modelFactory.createStandaloneElementTag("th:block", "th:include", "fragments/MensagemSucesso"));
 		model.add(modelFactory.createStandaloneElementTag("th:block", "th:include", "fragments/MensagensErroValidacao"));
 		
-		structureHandler.replaceWith(model, true);
-
-		
+		structureHandler.replaceWith(model, true);	
 	}
-
-
-
 }
