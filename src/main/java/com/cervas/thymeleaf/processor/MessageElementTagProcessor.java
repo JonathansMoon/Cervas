@@ -1,6 +1,7 @@
 package com.cervas.thymeleaf.processor;
 
 import org.thymeleaf.context.ITemplateContext;
+
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -33,8 +34,10 @@ public class MessageElementTagProcessor extends AbstractElementTagProcessor{
 		model.add(modelFactory.createStandaloneElementTag("th:block", "th:include", "fragments/MensagensErroValidacao"));
 		
 		structureHandler.replaceWith(model, true);
+
 		
 	}
+
 
 
 }
