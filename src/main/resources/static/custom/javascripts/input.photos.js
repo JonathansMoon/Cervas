@@ -46,8 +46,10 @@ var bar = document.getElementById('js-progressbar');
 	            bar.value = e.loaded;
 	        },
 	
-	        completeAll: function () {
-	            console.log('completeAll', arguments);
+	        completeAll: function (resposta) {
+
+	            $('input[name=foto]').val(resposta.response.nome);
+	            $('input[name=contentType]').val(resposta.response.contentType);
 	
 	            setTimeout(function () {
 	                bar.setAttribute('hidden', 'hidden');

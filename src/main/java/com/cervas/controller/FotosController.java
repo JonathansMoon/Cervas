@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cervas.dto.FotoDTO;
 import com.cervas.storage.FotoStorageRunnable;
 
 @RestController
@@ -16,12 +17,13 @@ public class FotosController {
 	@PostMapping
 	//O MultipartFile[] recebe do parametro files[] que vem do ajax
 	//Faz a postergação do resultado
-	public DeferredResult<String> upload(@RequestParam("files[]") MultipartFile[] files) {
-		DeferredResult<String> resultado = new DeferredResult<>(); 
+	public DeferredResult<FotoDTO> upload(@RequestParam("files[]") MultipartFile[] files) {
+		DeferredResult<FotoDTO> resultado = new DeferredResult<>(); 
 		
 		//TODO: Recebe arquivos do file e retorna resultado
 		Thread thread = new Thread(new FotoStorageRunnable(files, resultado));
 		thread.start();
+		
 		return resultado;
 	}
 }

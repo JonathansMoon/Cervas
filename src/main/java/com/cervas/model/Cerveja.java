@@ -40,6 +40,11 @@ public class Cerveja {
 	@NotBlank(message = "Nome é Obrigatório")
 	private String nome;
 	
+	private String foto;
+	
+	@Column(name= "content_type")
+	private String contentType;
+	
 	@NotBlank(message = "A descrição é Obrigatório")
 	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e 50 dígitos")
 	private String descricao;
@@ -103,6 +108,21 @@ public class Cerveja {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 	public Long getCodigo() {
 		return codigo;

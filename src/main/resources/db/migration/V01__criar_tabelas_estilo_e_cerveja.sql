@@ -9,11 +9,14 @@ CREATE TABLE cerveja (
     nome VARCHAR(80) NOT NULL,
     descricao TEXT NOT NULL,
     valor DECIMAL(10, 2) NOT NULL,
+    teor_alcoolico DECIMAL(10, 2) NOT NULL,
     comissao DECIMAL(10, 2) NOT NULL,
     sabor VARCHAR(50) NOT NULL,
     origem VARCHAR(50) NOT NULL,
     codigo_estilo BIGINT(20) NOT NULL,
     quantidade_estoque INTEGER,
+    foto VARCHAR(100),
+    content_type VARCHAR(100),
     FOREIGN KEY (codigo_estilo) REFERENCES estilo(codigo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
