@@ -20,7 +20,7 @@ CREATE TABLE cerveja (
     FOREIGN KEY (codigo_estilo) REFERENCES estilo(codigo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO estilo VALUES (0, 'Amber Lager');
-INSERT INTO estilo VALUES (0, 'Dark Lager');
-INSERT INTO estilo VALUES (0, 'Pole Lager');
-INSERT INTO estilo VALUES (0, 'Pilsner');
+INSERT INTO estilo(nome) VALUES ('Amber Lager');
+INSERT INTO estilo(nome) VALUES ('Dark Lager');
+INSERT INTO estilo(nome) VALUES ('Pole Lager');
+INSERT INTO estilo(nome) VALUES ('Pilsner');
