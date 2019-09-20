@@ -17,13 +17,20 @@ public class FotosController {
 	@PostMapping
 	//O MultipartFile[] recebe do parametro files[] que vem do ajax
 	//Faz a postergação do resultado
+	/**
+	 *O DeferredResult diz para a thread que recebeu a requisição que ela está livre
+	 *para receber outras requisições enquanto o metodo está produzindo o resultado
+	 *O DefferredResult avisa quando o resultado do tipo FotoDTO está pronto
+	 *pra ser retornado, isso através do .setResult()
+	 */
 	public DeferredResult<FotoDTO> upload(@RequestParam("files[]") MultipartFile[] files) {
 		DeferredResult<FotoDTO> resultado = new DeferredResult<>(); 
 		
-		//TODO: Recebe arquivos do file e retorna resultado
+		//Recebe arquivos do file e retorna resultado
 		Thread thread = new Thread(new FotoStorageRunnable(files, resultado));
 		thread.start();
 		
+		System.out.println(resultado);
 		return resultado;
 	}
 }
