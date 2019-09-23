@@ -9,8 +9,10 @@ import com.cervas.storage.FotoStorage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+@Component
 public class FotoStorageLocal implements FotoStorage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FotoStorageLocal.class);
 
