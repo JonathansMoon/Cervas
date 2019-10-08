@@ -1,9 +1,11 @@
 package com.cervas.storage.local;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import com.cervas.storage.FotoStorage;
 
@@ -21,8 +23,25 @@ public class FotoStorageLocal implements FotoStorage {
 
     public FotoStorageLocal() {
         // Salva no Home e cria uma pasta
-        this.local = FileSystems.getDefault().getPath(System.getenv("HOME"), ".cervasfotos");
+        this.local = FileSystems.getDefault().getPath(System.getProperty("user.home"), ".cervasfotos");
         criarPastas();
+    }
+
+    @Override
+    public String salvarTemporariamente(MultipartFile[] files) {
+        String novoNome = null;
+        if (files != null && files.length > 0) {
+            MultipartFile arquivo = files[0];
+            novoNome = renomearArquivo(arquivo.getOriginalFilename());
+            try {
+                arquivo.transferTo(new File(this.localTemporario.toAbsolutePath().toString()
+                        + FileSystems.getDefault().getSeparator() + novoNome));
+            } catch (Exception e) {
+                throw new RuntimeException("Erro salvando a foto na pasta temporária", e);
+            }
+        }
+        return novoNome;
+
     }
 
     private void criarPastas() {
@@ -43,9 +62,22 @@ public class FotoStorageLocal implements FotoStorage {
         }
     }
 
-    @Override
-    public void salvarTemporariamente(MultipartFile[] files) {
-        System.out.println("Salvando a foto Temporariamente");
+    private String renomearArquivo(String nomeOriginal) {
+        String novoNome = UUID.randomUUID().toString() + "_" + nomeOriginal;
 
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(String.format("Nome original: %s Novo nome do arquivo %s", nomeOriginal, novoNome));
+        }
+        return novoNome;
+    }
+
+    @Override
+    public byte[] recuperarFotoTemporaria(String nome) {    
+        try {        
+            System.out.println(Files.readAllBytes(this.localTemporario.resolve(nome)));
+            return Files.readAllBytes(this.localTemporario.resolve(nome));
+        } catch (Exception e) {
+            throw new RuntimeException("Erro lendo a foto temporária!");
+        }
     }
 }
