@@ -48,14 +48,38 @@ var bar = document.getElementById('js-progressbar');
 	
 	        completeAll: function (resposta) {
 
-	            $('input[name=foto]').val(resposta.response.nome);
-	            $('input[name=contentType]').val(resposta.response.contentType);
-	
-	            setTimeout(function () {
+				var inputNomeFoto = $('input[name=foto]');
+				var inputContentType =  $('input[name=contentType]');
+
+				// Usando a biblioteca HandleBars.js para 
+				// gerar variaveis js e utiliza-las no template
+				var deOndeVemoHtml = $('#foto-cerveja').html();
+				var template = Handlebars.compile(deOndeVemoHtml);
+				//Gera o objeto dentro de um template
+				var htmlFotoCerveja = template({nomeFoto: resposta.response.nome});
+
+				var containerFotoCerveja = $('.js-container-foto-cerveja');
+
+				var inputUploud = $('#js-upload');
+
+				inputUploud.addClass('hidden');
+
+				inputNomeFoto.val(resposta.response.nome);
+				inputContentType.val(resposta.response.contentType);
+				
+				//Inclui o template HandleBars dentro da class selecionada 
+				containerFotoCerveja.append(htmlFotoCerveja);
+
+				$('.js-remove-foto').on('click', function() {
+					$('.js-foto-cerveja').remove();
+					inputUploud.removeClass('hidden');
+					inputNomeFoto.val();
+					inputContentType.val();
+				});
+
+				setTimeout(function () {
 	                bar.setAttribute('hidden', 'hidden');
-	            }, 1000);
-	
-	            alert('Upload Completed');
+				}, 1000);		
 	        }
     			
     	};
