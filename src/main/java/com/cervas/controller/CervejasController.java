@@ -11,6 +11,7 @@ import com.cervas.service.CadastroCervejaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,16 +56,10 @@ public class CervejasController {
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
 
-	@RequestMapping("/clientes/novo")
-	//A view precisa do objeto Cerveja
-	public String novoCliente() {
-		return "cerveja/CadastroCliente";
-	}
-
-	@RequestMapping("/usuarios/novo")
-	//A view precisa do objeto Cerveja
-	public String novoUsuario() {
-		return "cerveja/CadastroUsuario";
+	@GetMapping()
+	public ModelAndView pesquisar() {
+		ModelAndView mv = new ModelAndView("cerveja/PesquisaCervejas");
+		return mv;
 	}
 
 }

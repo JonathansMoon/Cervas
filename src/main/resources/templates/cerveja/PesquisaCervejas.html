@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xtml"
+    xmlns:th="hhtp://wwww.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/LayoutPadrao}"
+    xmlns:cervas="http://cervas.com">
+<head>
+    <title>Pesquisa</title>
+</head>
+<body>
+    <section class="aw-layout-content" layout:fragment="conteudo">
+        
+        <!--Titulo do cadastro-->
+		<div class="page-header">
+			<div class="container-fluid">	
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h1 class="titulo">
+                            Pesquisa de produto
+                        </h1>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="aw-page-header-controls">
+                            <a th:href="@{/cervejas/novo}" class="btn btn-default">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                <span class="hidden-xs hidden-sm">Nova cerveja</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>	
+			</div>
+        </div> 
+
+        <div class="container-fluid">
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="formgroup col-sm-6">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" class="form-control">
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </section>
+</body>
+</html>
