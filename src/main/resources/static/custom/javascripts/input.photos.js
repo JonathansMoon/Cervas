@@ -44,17 +44,22 @@
 				complete: onUploadComplete.bind(this)
 			}
 			UIkit.upload($('.js-upload'), settings);
+
+			if (this.inputNomeFoto.val()){
+				onUploadComplete.call(this, {nome: this.inputNomeFoto.val(), contentType: this.inputContentType.val()});
+			}
 		}
 
 		//Metodo chamado ao completar o envio
 		function onUploadComplete(resposta) {
+			this.inputNomeFoto.val() ? respostaResponse = resposta : respostaResponse = resposta.response;
 			this.inputUploud.addClass('hidden');
 
-			this.inputNomeFoto.val(resposta.response.nome);
-			this.inputContentType.val(resposta.response.contentType);
+			this.inputNomeFoto.val(respostaResponse.nome);
+			this.inputContentType.val(respostaResponse.contentType);
 			
 			//Gera o objeto dentro de um template
-			var htmlFotoCerveja = this.template({nomeFoto: resposta.response.nome});
+			var htmlFotoCerveja = this.template({nomeFoto: respostaResponse.nome});
 			//Inclui o template HandleBars dentro da class selecionada 
 			this.containerFotoCerveja.append(htmlFotoCerveja);
 
@@ -69,8 +74,8 @@
 		function onRemoveFoto () {
 			$('.js-foto-cerveja').remove();
 			this.inputUploud.removeClass('hidden');
-			this.inputNomeFoto.val();
-			this.inputContentType.val();
+			this.inputNomeFoto.val('');
+			this.inputContentType.val('');
 		}
 
 		return UploadFoto;

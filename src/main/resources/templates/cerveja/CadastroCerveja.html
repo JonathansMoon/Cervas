@@ -33,24 +33,24 @@
 				<cervas:message/>
 
 				<div class="row">
-					<div class="form-group col-sm-2" cervas:classforerror="sku">
+					<div class="form-group col-sm-2 cv-required" cervas:classforerror="sku">
 						<label for="sku" class="control-label">SKU</label>
 						<input type="text" id="sku" class="form-control" th:field="*{sku}">
 					</div>
-					<div class="form-group col-sm-10" cervas:classforerror="nome">
+					<div class="form-group col-sm-10 cv-required" cervas:classforerror="nome">
 						<label for="nome" class="control-label">Nome</label>
 						<input type="text" id="nome" class="form-control" th:field="*{nome}">
 					</div>
 				</div>	
 
 				<div class="row">
-					<div class="form-group col-sm-12" cervas:classforerror="descricao">
+					<div class="form-group col-sm-12 cv-required" cervas:classforerror="descricao">
 						<label for="descricao" class="control-label">Descricão</label>
 						<textarea id="descricao" class="form-control" rows="3" th:field="*{descricao}"></textarea>
 					</div>	
 				</div>	
 				<div class="row">
-					<div class="form-group col-sm-3" cervas:classforerror="estilo">
+					<div class="form-group col-sm-3 cv-required" cervas:classforerror="estilo">
 						<label for="estilo" class="control-label">Estilo</label>
 						<div class="cv-field-action">
 							<select id="estilo" class="form-control" th:field="*{estilo}">
@@ -67,7 +67,7 @@
 						
 					</div>
 
-					<div class="form-group col-sm-3" cervas:classforerror="sabor">
+					<div class="form-group col-sm-3 cv-required" cervas:classforerror="sabor">
 						<label for="sabor" class="control-label">Sabor</label>
 						<select name="sabor" id="sabor" class="form-control" th:field="*{sabor}">
 							<option value="">Selecionar sabor</option>
@@ -75,7 +75,7 @@
 						</select>
 					</div>
 
-					<div class=" form-group col-sm-3" cervas:classforerror="teorAlcoolico">
+					<div class=" form-group col-sm-3 cv-required" cervas:classforerror="teorAlcoolico">
 						<label for="teorAlcoolico" class="control-label">Teor Alcoolico</label>
 						<div class="input-group">
 							<input id="teorAlcoolico" type="text" class="form-control js-decimal" th:field="*{teorAlcoolico}"/>
@@ -83,7 +83,7 @@
 						</div>
 					</div>
 
-					<div class="form-group col-lg-3 col-sm-6" cervas:classforerror="origem">
+					<div class="form-group col-lg-3 col-sm-6 cv-required" cervas:classforerror="origem">
 						<label for="origem" class="control-label">Origem</label>
 						<div>
 							<th:block th:each="origem : ${origens}">
@@ -97,7 +97,7 @@
 				</div>
 
 				<div class="row">
-					<div class=" form-group col-sm-3" cervas:classforerror="valor">
+					<div class=" form-group col-sm-3 cv-required" cervas:classforerror="valor">
 						<label for="preco" class="control-label">Valor</label>
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
@@ -105,7 +105,7 @@
 						</div>
 					</div>
 
-					<div class=" form-group col-sm-3" cervas:classforerror="comissao">
+					<div class=" form-group col-sm-3 cv-required" cervas:classforerror="comissao">
 						<label for="comissao" class="control-label">Comissão</label>
 						<div class="input-group">
 							<input id="comissao" name="comissao" type="text" class="form-control js-decimal" th:field="*{comissao}" />
@@ -113,7 +113,7 @@
 						</div>
 					</div>
 
-					<div class="form-group col-sm-3" cervas:classforerror="quantidadeEstoque">
+					<div class="form-group col-sm-3 cv-required" cervas:classforerror="quantidadeEstoque">
 						<label for="estoque" class="control-label">Estoque</label>
 						<input type="text" id="estoque" class="form-control js-plain" th:field="*{quantidadeEstoque}">
 					</div>		
