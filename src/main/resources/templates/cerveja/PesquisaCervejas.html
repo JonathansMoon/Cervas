@@ -5,6 +5,7 @@
     layout:decorate="~{layout/LayoutPadrao}"
     xmlns:cervas="http://cervas.com">
 <head>
+    <link rel="stylesheet" type="text/css" href="/custom/stylesheets/cervas.css"/>
     <title>Pesquisa</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
                         <div class="aw-page-header-controls">
                             <a th:href="@{/cervejas/novo}" class="btn btn-default">
                                 <i class="glyphicon glyphicon-plus-sign"></i>
-                                <span class="hidden-xs hidden-sm">Nova cerveja</span>
+                                <span class="hidden-xs hidden-sm">Novo produto</span>
                             </a>
                         </div>
                     </div>
@@ -34,14 +35,103 @@
         <div class="container-fluid">
             <form action="" method="GET">
                 <div class="row">
-                    <div class="formgroup col-sm-6">
+                    <div class="form-group col-sm-3">
+                        <label for="sku">Sku</label>
+                        <input type="text" name="sku" id="sku" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-9">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" class="form-control">
+                        <input type="text" name="nome" id="nome" class="form-control">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="estilo">Estilos</label>
+                        <select id="estilo" class="form-control">
+                            <option value="">Todos os estilos</option>
+                            <option th:each="estilo : ${estilos}" th:text="${estilo.nome}" th:value="${estilo.codigo}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="sabor">Sabor</label>
+                        <select id="sabor" class="form-control">
+                            <option th:each="sabor : ${sabores}" th:text="${sabor}" th:value="${sabor.descricao}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="origem" class="control-label">Origem</label>
+                        <div>
+                            <th:block th:each="origem : ${origens}">
+                                <div class="radio radio-inline">
+                                    <input th:id="|id_${origem}|" type="radio" th:value="${origem}" name="origem">
+                                    <label th:for="|id_${origem}|" th:text="${origem.descricao}"></label>
+                                </div>
+                            </th:block>
+                            <div class="radio radio-inline">
+                                <input id="todasOrigens" type="radio" th:checked="*{origem} == null" name="origem">
+                                <label for="todasOrigens">Todas as origens</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="precoDe">Preço unitário</label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control aw-form-control-inline-sm js-decimal" id="precoDe">
+                            <label for="precoAte" class="aw-form-label-between">até</label>
+                            <input type="text" class="form-control aw-form-control-inline-sm js-decimal" id="precoAte">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
             </form>
+            <div class="class-responsive cv-tabela-simples">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="table-cervejas-col-foto"></th>
+                            <th class="table-cervejas-col-sku">Sku</th>
+                            <th class="table-cervejas-col-nome">Nome</th>
+                            <th class="table-cervejas-col-estilo">Estilo</th>
+                            <th class="table-cervejas-col-origem">Origem</th>
+                            <th class="table-cervejas-col-valor">Valor</th>
+                            <th class="table-cervejas-col-acoes"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="cerveja : ${cervejas}">
+                            <td class="text-center">
+                                <img th:src="@{/cervejas/fotos/temp/{foto}(foto=${cerveja.foto})}" alt="" class="img-responsive">
+                            </td>
+                            <td class="text-center" th:text="${cerveja.sku}"></td>
+                            <td th:text="${cerveja.nome}"></td>
+                            <td th:text="${cerveja.estilo.nome}"></td>
+                            <td th:text="${cerveja.origem.descricao}"></td>
+                            <td class="text-right" th:text=" |R$ ${{cerveja.valor}}|"></td>
+                            <td class="text-center">
+                                <a href="btn btn-link btn-xs js-tooltip" title="Editar">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                                <a href="" class="btn btn-link btn-xs" title="Excluir">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${cerveja}">
+                            <td colspan="7">Não possui nenhum produto cadastrado!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-        
     </section>
+
+    <th:block layout:fragment="javascripts">
+		<script src="/custom/javascripts/maskText.js"></script>
+		<script src="/vendors/javascripts/jquery.maskMoney.min.js"></script>
+	</th:block>	
 </body>
 </html>

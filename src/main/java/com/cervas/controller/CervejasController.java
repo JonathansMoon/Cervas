@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.cervas.model.Cerveja;
 import com.cervas.model.Origem;
 import com.cervas.model.Sabor;
+import com.cervas.repository.Cervejas;
 import com.cervas.repository.Estilos;
 import com.cervas.service.CadastroCervejaService;
 
@@ -22,17 +23,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CervejasController {
 	
 	@Autowired
-	private Estilos Estilos;
+	private Estilos estilos;
 
 	@Autowired
 	private CadastroCervejaService cadastroCervejaService;
+
+	@Autowired
+	private Cervejas cervejas;
 	
 	@RequestMapping("/novo")
 	//A view precisa do objeto Cerveja no Form
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
 		mv.addObject("sabores", Sabor.values());
-		mv.addObject("estilos", Estilos.findAll());
+		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("origens", Origem.values());
 		return mv;
 	}
@@ -59,6 +63,10 @@ public class CervejasController {
 	@GetMapping()
 	public ModelAndView pesquisar() {
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCervejas");
+		mv.addObject("sabores", Sabor.values());
+		mv.addObject("origens", Origem.values());
+		mv.addObject("estilos", estilos.findAll());
+		mv.addObject("cervejas", cervejas.findAll());
 		return mv;
 	}
 
