@@ -103,7 +103,7 @@
                     <tbody>
                         <tr th:each="cerveja : ${cervejas}">
                             <td class="text-center">
-                                <img th:src="@{/cervejas/fotos/temp/{foto}(foto=${cerveja.foto})}" alt="" class="img-responsive">
+                                <img th:src="@{/cervejas/fotos/thumbnail.{foto}(foto=${cerveja.fotoOuMock})}" alt="" class="img-responsive">
                             </td>
                             <td class="text-center" th:text="${cerveja.sku}"></td>
                             <td th:text="${cerveja.nome}"></td>

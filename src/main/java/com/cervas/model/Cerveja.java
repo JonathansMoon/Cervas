@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
+import org.springframework.util.StringUtils;
 
 import com.cervas.validation.SKU;
 
@@ -111,6 +112,10 @@ public class Cerveja {
 	}
 	public String getFoto() {
 		return foto;
+	}
+
+	public String getFotoOuMock() {
+		return !StringUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 
 	public void setFoto(String foto) {
