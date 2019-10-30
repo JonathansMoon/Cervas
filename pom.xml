@@ -65,6 +65,11 @@
       <artifactId>thumbnailator</artifactId>
       <version>${thumbnailator.version}</version>
     </dependency>
+    <!-- hibernate para metamodel -->
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-jpamodelgen</artifactId>
+    </dependency>
     <!-- Para o retorno de imagem GET -->
     <dependency>
 		<groupId>com.google.code.gson</groupId>

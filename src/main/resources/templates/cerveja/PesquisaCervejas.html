@@ -79,7 +79,7 @@
                     <div class="form-group col-sm-6">
                         <label for="valorDe">Preço unitário</label>
                         <div class="form-inline">
-                            <input type="text" class="form-control aw-form-control-inline-sm js-decimal" id="valorDe" th:field="*{valorDe}">
+                            <input type="text" class="form-control aw-form-control-inline-sm js-decimal" name="valorDe" id="valorDe" th:field="*{valorDe}">
                             <label for="valorAte" class="aw-form-label-between">até</label>
                             <input type="text" class="form-control aw-form-control-inline-sm js-decimal" id="valorAte" th:field="*{valorAte}">
                         </div>
@@ -96,6 +96,7 @@
                             <th class="table-cervejas-col-sku">Sku</th>
                             <th class="table-cervejas-col-nome">Nome</th>
                             <th class="table-cervejas-col-estilo">Estilo</th>
+                            <th class="table-cervejas-col-sabor">Sabor</th>
                             <th class="table-cervejas-col-origem">Origem</th>
                             <th class="table-cervejas-col-valor">Valor</th>
                             <th class="table-cervejas-col-acoes"></th>
@@ -109,6 +110,7 @@
                             <td class="text-center" th:text="${cerveja.sku}"></td>
                             <td th:text="${cerveja.nome}"></td>
                             <td th:text="${cerveja.estilo.nome}"></td>
+                            <td th:text="${cerveja.sabor.descricao}"></td>
                             <td th:text="${cerveja.origem.descricao}"></td>
                             <td class="text-right" th:text=" |R$ ${{cerveja.valor}}|"></td>
                             <td class="text-center">

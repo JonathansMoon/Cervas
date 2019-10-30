@@ -2,6 +2,8 @@ package com.cervas.repository.filter;
 
 import java.math.BigDecimal;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import com.cervas.model.Estilo;
 import com.cervas.model.Origem;
 import com.cervas.model.Sabor;
@@ -13,7 +15,9 @@ public class CervejaFilter {
     private Estilo estilo;
     private Sabor sabor;
     private Origem origem;
+    @NumberFormat(pattern="#,##0")
     private BigDecimal valorDe;
+    @NumberFormat(pattern="#,##0")
     private BigDecimal valorAte;
 
     public String getSku() {
@@ -71,6 +75,12 @@ public class CervejaFilter {
     public void setValorAte(BigDecimal valorAte) {
         this.valorAte = valorAte;
     }
+
+	@Override
+	public String toString() {
+		return "CervejaFilter [sku=" + sku + ", valorDe=" + valorDe + ", valorAte=" + valorAte + "]";
+	}
+    
 
     
 }

@@ -1,18 +1,20 @@
 package com.cervas.repository.helper.cerveja;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import com.cervas.model.Cerveja;
+import com.cervas.model.Cerveja_;
 import com.cervas.repository.filter.CervejaFilter;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.util.StringUtils;
 
 public class CervejasImpl implements CervejasQueries{
@@ -21,20 +23,54 @@ public class CervejasImpl implements CervejasQueries{
     private EntityManager manager;
 
     @Override
-    public List<Cerveja> filtrar(CervejaFilter filtro) {
+    public List<Cerveja> filtrar(CervejaFilter cervejaFilter) {
+        //Controi a Criteria
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        //Carrego a classe Cerveja e injeta na Criteria
+        CriteriaQuery<Cerveja> criteria = builder.createQuery(Cerveja.class);
+        Root<Cerveja> root = criteria.from(Cerveja.class);
 
-        if(filtro != null) {
-            //Contruo a Criteria
-            CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
-            //Carrego a classe Cerveja e injeto na Criteria
-            CriteriaQuery<Cerveja> criteriaQuery = criteriaBuilder.createQuery(Cerveja.class);
-            if(!StringUtils.isEmpty(filtro.getSku())) {
-                criteriaQuery.add(Restrictions.eq("sku", filtro.getSku()));
-                
+
+        //Restrições
+        Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
+        criteria.where(predicates);
+
+        TypedQuery<Cerveja> query = manager.createQuery(criteria);
+        return query.getResultList();
+    }
+
+    private Predicate[] criarRestricoes(CervejaFilter cervejaFilter, CriteriaBuilder builder, Root<Cerveja> root) {
+        //Já que o retorno requer um array pradicate[], preciso de uma lista de predicates para tranformar em array
+        List<Predicate> predicates = new ArrayList<>();
+        if(cervejaFilter != null) {
+System.out.println("cervas: " + cervejaFilter.toString());
+            if(!StringUtils.isEmpty(cervejaFilter.getSku())) {
+                predicates.add(builder.equal(root.get(Cerveja_.sku), cervejaFilter.getSku()));
             }
+            
+            if(!StringUtils.isEmpty(cervejaFilter.getNome())) {
+            	predicates.add(builder.like(root.get(Cerveja_.nome), "%" + cervejaFilter.getNome() + "%"));
+            }
+            
+            if(!StringUtils.isEmpty(cervejaFilter.getEstilo())) {
+            	predicates.add(builder.equal(root.get(Cerveja_.estilo), cervejaFilter.getEstilo()));
+            }
+            
+            if(!StringUtils.isEmpty(cervejaFilter.getSabor())) {
+            	predicates.add(builder.equal(root.get(Cerveja_.sabor), cervejaFilter.getSabor()));
+            }
+            if(!StringUtils.isEmpty(cervejaFilter.getOrigem())) {
+            	predicates.add(builder.equal(root.get(Cerveja_.origem), cervejaFilter.getOrigem()));
+            }
+            if(!StringUtils.isEmpty(cervejaFilter.getValorDe())) {
+            	predicates.add(builder.greaterThanOrEqualTo(root.get(Cerveja_.valor), cervejaFilter.getValorDe()));
+            }
+            if(!StringUtils.isEmpty(cervejaFilter.getValorAte())) {
+            	predicates.add(builder.lessThanOrEqualTo(root.get(Cerveja_.valor), cervejaFilter.getValorAte()));
+            }
+            
         }
-
-
-        return null;
+        
+        return predicates.toArray(new Predicate[predicates.size()]);
     }
 }
