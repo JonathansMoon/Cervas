@@ -11,6 +11,8 @@ import com.cervas.repository.filter.CervejaFilter;
 import com.cervas.service.CadastroCervejaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,12 +64,14 @@ public class CervejasController {
 	}
 
 	@GetMapping()
-	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result) {
+	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable) {
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCervejas");
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
 		mv.addObject("estilos", estilos.findAll());
-		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter));
+		System.out.println("page: " + pageable.getPageNumber() );
+		System.out.println("page: " +  pageable.getPageSize());
+		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter, pageable));
 		return mv;
 	}
 

@@ -15,6 +15,7 @@ import com.cervas.model.Cerveja;
 import com.cervas.model.Cerveja_;
 import com.cervas.repository.filter.CervejaFilter;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 public class CervejasImpl implements CervejasQueries{
@@ -23,27 +24,40 @@ public class CervejasImpl implements CervejasQueries{
     private EntityManager manager;
 
     @Override
-    public List<Cerveja> filtrar(CervejaFilter cervejaFilter) {
+    public List<Cerveja> filtrar(CervejaFilter cervejaFilter, Pageable pageable) {
         //Controi a Criteria
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         //Carrego a classe Cerveja e injeta na Criteria
         CriteriaQuery<Cerveja> criteria = builder.createQuery(Cerveja.class);
         Root<Cerveja> root = criteria.from(Cerveja.class);
 
-
         //Restrições
         Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
         criteria.where(predicates);
 
         TypedQuery<Cerveja> query = manager.createQuery(criteria);
+
+        //Chamada de método de Paginação
+        adicionarResticoesDePaginacao(query, pageable);
+
         return query.getResultList();
+    }
+
+    //Método de Paginação
+    private void adicionarResticoesDePaginacao(TypedQuery<Cerveja> query, Pageable pageable) {
+        //Paginação
+        int paginaAtual = pageable.getPageNumber();
+        int totalRegistrosPorPagina = pageable.getPageSize();
+        int primeiroRegistro = paginaAtual * totalRegistrosPorPagina;
+
+        query.setFirstResult(primeiroRegistro);
+        query.setMaxResults(totalRegistrosPorPagina);
     }
 
     private Predicate[] criarRestricoes(CervejaFilter cervejaFilter, CriteriaBuilder builder, Root<Cerveja> root) {
         //Já que o retorno requer um array pradicate[], preciso de uma lista de predicates para tranformar em array
         List<Predicate> predicates = new ArrayList<>();
         if(cervejaFilter != null) {
-System.out.println("cervas: " + cervejaFilter.toString());
             if(!StringUtils.isEmpty(cervejaFilter.getSku())) {
                 predicates.add(builder.equal(root.get(Cerveja_.sku), cervejaFilter.getSku()));
             }
