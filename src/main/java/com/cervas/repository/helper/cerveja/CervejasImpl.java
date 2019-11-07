@@ -8,13 +8,19 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.cervas.model.Cerveja;
 import com.cervas.model.Cerveja_;
+import com.cervas.model.Estilo;
+import com.cervas.model.Estilo_;
 import com.cervas.repository.filter.CervejaFilter;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
@@ -24,13 +30,13 @@ public class CervejasImpl implements CervejasQueries{
     private EntityManager manager;
 
     @Override
-    public List<Cerveja> filtrar(CervejaFilter cervejaFilter, Pageable pageable) {
-        //Controi a Criteria
+    public Page<Cerveja> filtrar(CervejaFilter cervejaFilter, Pageable pageable) {
+        //Controla a Criteria
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         //Carrego a classe Cerveja e injeta na Criteria
         CriteriaQuery<Cerveja> criteria = builder.createQuery(Cerveja.class);
         Root<Cerveja> root = criteria.from(Cerveja.class);
-
+ 
         //Restrições
         Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
         criteria.where(predicates);
@@ -40,10 +46,10 @@ public class CervejasImpl implements CervejasQueries{
         //Chamada de método de Paginação
         adicionarResticoesDePaginacao(query, pageable);
 
-        return query.getResultList();
+        return new PageImpl<>(query.getResultList(), pageable, total(cervejaFilter));
     }
 
-    //Método de Paginação
+    // Método de Paginação
     private void adicionarResticoesDePaginacao(TypedQuery<Cerveja> query, Pageable pageable) {
         //Paginação
         int paginaAtual = pageable.getPageNumber();
@@ -52,6 +58,21 @@ public class CervejasImpl implements CervejasQueries{
 
         query.setFirstResult(primeiroRegistro);
         query.setMaxResults(totalRegistrosPorPagina);
+    }
+    
+    private Long total(CervejaFilter cervejaFilter) {     
+    	//Controla a Criteria
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        //Carrego a classe Cerveja e injeta na Criteria
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Cerveja> root = criteria.from(Cerveja.class);
+
+        //Restrições
+        Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
+        criteria.where(predicates);
+
+        criteria.select(builder.count(root));
+        return manager.createQuery(criteria).getSingleResult();
     }
 
     private Predicate[] criarRestricoes(CervejaFilter cervejaFilter, CriteriaBuilder builder, Root<Cerveja> root) {
