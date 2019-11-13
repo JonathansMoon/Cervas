@@ -19,9 +19,11 @@ import com.cervas.model.Estilo;
 import com.cervas.model.Estilo_;
 import com.cervas.repository.filter.CervejaFilter;
 
+import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
 public class CervejasImpl implements CervejasQueries{
@@ -36,11 +38,13 @@ public class CervejasImpl implements CervejasQueries{
         //Carrego a classe Cerveja e injeta na Criteria
         CriteriaQuery<Cerveja> criteria = builder.createQuery(Cerveja.class);
         Root<Cerveja> root = criteria.from(Cerveja.class);
+        // Precisa ser adicioado logo após a declaração do root
+        adicionarOrdenacao(criteria, pageable, builder, root);
  
         //Restrições
         Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
         criteria.where(predicates);
-
+        
         TypedQuery<Cerveja> query = manager.createQuery(criteria);
 
         //Chamada de método de Paginação
@@ -49,7 +53,18 @@ public class CervejasImpl implements CervejasQueries{
         return new PageImpl<>(query.getResultList(), pageable, total(cervejaFilter));
     }
 
-    // Método de Paginação
+    private void adicionarOrdenacao(CriteriaQuery<Cerveja> criteria, Pageable pageable, CriteriaBuilder builder, Root<Cerveja> root) {
+		//pageable.getSort recebe os dados http referentes a ordenação da tabela
+    	Sort sort = pageable.getSort();
+		if (sort != null) {
+			Sort.Order order = sort.iterator().next();
+			String property = order.getProperty();
+			criteria.orderBy(order.isAscending() ? builder.asc(root.get(property)) : builder.desc(root.get(property)));
+		}
+		
+	}
+
+	// Método de Paginação
     private void adicionarResticoesDePaginacao(TypedQuery<Cerveja> query, Pageable pageable) {
         //Paginação
         int paginaAtual = pageable.getPageNumber();
@@ -59,6 +74,8 @@ public class CervejasImpl implements CervejasQueries{
         query.setFirstResult(primeiroRegistro);
         query.setMaxResults(totalRegistrosPorPagina);
     }
+    
+    
     
     private Long total(CervejaFilter cervejaFilter) {     
     	//Controla a Criteria

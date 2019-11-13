@@ -1,7 +1,9 @@
 package com.cervas.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.cervas.controller.page.PageWrapper;
 import com.cervas.model.Cerveja;
 import com.cervas.model.Origem;
 import com.cervas.model.Sabor;
@@ -11,7 +13,6 @@ import com.cervas.repository.filter.CervejaFilter;
 import com.cervas.service.CadastroCervejaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -65,14 +66,15 @@ public class CervejasController {
 	}
 
 	@GetMapping()
-	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable) {
+	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result, 
+			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCervejas");
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
 		mv.addObject("estilos", estilos.findAll());
-		Page<Cerveja> pagina = cervejas.filtrar(cervejaFilter, pageable);
-		mv.addObject("pagina", pagina);
-		return mv;
+		PageWrapper<Cerveja> paginaWrapper = new PageWrapper<>( cervejas.filtrar(cervejaFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		return mv;  
 	}
 
 }
