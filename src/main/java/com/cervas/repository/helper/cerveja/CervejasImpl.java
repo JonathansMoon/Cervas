@@ -8,18 +8,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.cervas.model.Cerveja;
 import com.cervas.model.Cerveja_;
-import com.cervas.model.Estilo;
-import com.cervas.model.Estilo_;
 import com.cervas.repository.filter.CervejaFilter;
 
-import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +33,7 @@ public class CervejasImpl implements CervejasQueries{
         //Carrego a classe Cerveja e injeta na Criteria
         CriteriaQuery<Cerveja> criteria = builder.createQuery(Cerveja.class);
         Root<Cerveja> root = criteria.from(Cerveja.class);
-        // Precisa ser adicioado logo após a declaração do root
+        // Ordenação - Precisa ser adicioado logo após a declaração do root
         adicionarOrdenacao(criteria, pageable, builder, root);
  
         //Restrições
@@ -56,7 +51,8 @@ public class CervejasImpl implements CervejasQueries{
     private void adicionarOrdenacao(CriteriaQuery<Cerveja> criteria, Pageable pageable, CriteriaBuilder builder, Root<Cerveja> root) {
 		//pageable.getSort recebe os dados http referentes a ordenação da tabela
     	Sort sort = pageable.getSort();
-		if (sort != null) {
+
+		if (sort.isSorted()) {
 			Sort.Order order = sort.iterator().next();
 			String property = order.getProperty();
 			criteria.orderBy(order.isAscending() ? builder.asc(root.get(property)) : builder.desc(root.get(property)));

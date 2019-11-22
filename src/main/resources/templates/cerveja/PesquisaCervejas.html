@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xtml"
-    xmlns:th="hhtp://wwww.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/LayoutPadrao}"
     xmlns:cervas="http://cervas.com">
@@ -94,15 +93,29 @@
                         <tr>
                             <th class="table-cervejas-col-foto"></th>
                             <th class="table-cervejas-col-sku">
-	                            <a th:href="${pagina.urlOrdenacao('sku')}"> Sku 
-	                            	<span class="dropup"> <span class="caret"> </span> </span> 
-	                            </a> 
+	                            <th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'sku', 'SKU')">
+	                            </th:block>
 	                        </th>
-                            <th class="table-cervejas-col-nome">Nome</th>
-                            <th class="table-cervejas-col-estilo">Estilo</th>
-                            <th class="table-cervejas-col-sabor">Sabor</th>
-                            <th class="table-cervejas-col-origem">Origem</th>
-                            <th class="table-cervejas-col-valor">Valor</th>
+                            <th class="table-cervejas-col-nome">
+                            	<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'nome', 'Nome')">
+	                            </th:block> 
+                            </th>
+                            <th class="table-cervejas-col-estilo">
+                            	<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'estilo', 'Estilo')">
+	                            </th:block>
+                            </th>
+                            <th class="table-cervejas-col-sabor">
+                            	<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'sabor', 'Sabor')">
+	                            </th:block>
+                            </th>
+                            <th class="table-cervejas-col-origem">
+                            	<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'origem', 'Origem')">
+	                            </th:block>
+                            </th>
+                            <th class="table-cervejas-col-valor">
+                            	<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'valor', 'Valor')">
+	                            </th:block> 
+                            </th>
                             <th class="table-cervejas-col-acoes"></th>
                         </tr>
                     </thead>
