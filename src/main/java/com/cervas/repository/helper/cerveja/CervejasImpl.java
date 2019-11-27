@@ -36,7 +36,7 @@ public class CervejasImpl implements CervejasQueries{
         // Ordenação - Precisa ser adicioado logo após a declaração do root
         adicionarOrdenacao(criteria, pageable, builder, root);
  
-        //Restrições
+        // Adiciona as Restrições
         Predicate[] predicates = criarRestricoes(cervejaFilter, builder, root);
         criteria.where(predicates);
         
@@ -48,8 +48,9 @@ public class CervejasImpl implements CervejasQueries{
         return new PageImpl<>(query.getResultList(), pageable, total(cervejaFilter));
     }
 
+    // Método de Ordenação
     private void adicionarOrdenacao(CriteriaQuery<Cerveja> criteria, Pageable pageable, CriteriaBuilder builder, Root<Cerveja> root) {
-		//pageable.getSort recebe os dados http referentes a ordenação da tabela
+		//pageable.getSort recebe os dados   http referentes a ordenação da tabela
     	Sort sort = pageable.getSort();
 
 		if (sort.isSorted()) {
@@ -72,7 +73,7 @@ public class CervejasImpl implements CervejasQueries{
     }
     
     
-    
+    //Metodo numero total de registros
     private Long total(CervejaFilter cervejaFilter) {     
     	//Controla a Criteria
         CriteriaBuilder builder = manager.getCriteriaBuilder();

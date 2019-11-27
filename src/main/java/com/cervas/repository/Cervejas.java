@@ -13,4 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface Cervejas extends JpaRepository<Cerveja, Long>, CervejasQueries {
 
 	public Optional<Cerveja> findBySku(String sku);
+	public Optional<Cerveja> findByNome(String nome);
 }
