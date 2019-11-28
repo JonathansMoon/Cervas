@@ -54,7 +54,7 @@
 							</tr>
 						</thead>		
 						<tbody>
-							<tr th:each="estilo : ${estilos}">
+							<tr th:each="estilo : ${pagina.conteudo}">
 								<td th:text="${estilo.nome}"></td>
 								<td class="text-right">
 	                                <a href="btn btn-link btn-xs js-tooltip" title="Editar">
@@ -65,9 +65,35 @@
 	                                </a>
 	                            </td>
 							</tr>
+							<tr th:if="${pagina.vazio}">
+								<td colspan="2"> Não possui nenhum produto cadastrado!</td>
+							</tr>
 						</tbody>									
 					</table>
 				</div>	
+				
+				<div>
+					<nav aria-label="..."> 
+						<ul class="pagination" th:with="paginaAtual=${pagina.atual}">
+							<li th:class="${pagina.primeira} ? disabled ">
+								<a th:remove="${pagina.primeira} ? tag" class="page-link" th:href="${pagina.urlParaPagina(paginaAtual - 1)}" tabindex="-1">
+									<span class="page-link">Anterior</span>
+								</a>	
+							</li>
+							<th:block th:each="p : ${#numbers.sequence(1, pagina.total)}" th:with="numeroPagina=${p - 1}">
+								<li th:class="${paginaAtual == numeroPagina} ? active">
+									<a th:href="${pagina.urlParaPagina(numeroPagina)}">[[${p}]]</a>
+								</li>
+							</th:block>
+							<li th:class="${pagina.ultima} ? disabled">
+								<a th:remove="pagina.ultima ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}">
+									<span class="page-link">Próximo</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				
 			</div>	
 		</section>
 	</body>

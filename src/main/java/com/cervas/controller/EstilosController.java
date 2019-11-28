@@ -2,6 +2,7 @@ package com.cervas.controller;
 
 
 
+import com.cervas.controller.page.PageWrapper;
 import com.cervas.model.Estilo;
 import com.cervas.repository.Estilos;
 import com.cervas.repository.filter.EstiloFilter;
@@ -47,9 +48,9 @@ public class EstilosController {
     	
         
         ModelAndView mv = new ModelAndView("cerveja/EstiloPesquisa");
-        Page<Estilo> estiloOptional = estilos.filtrar(estiloFilter, pageable);
-        mv.addObject("estilos", estiloOptional);
-        System.out.println(">>> : " + estiloOptional);
+        //Ao invés de pegar o page aqui, eu envio ele pro PageWrapper e resgato aqui
+        PageWrapper<Estilo> estiloWrapper = new PageWrapper<>(estilos.filtrar(estiloFilter, pageable), httpServletRequest);
+        mv.addObject("pagina", estiloWrapper);
         
 
         return mv;
