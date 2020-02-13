@@ -35,6 +35,7 @@ public class FotoStorageLocal implements FotoStorage {
         String novoNome = null;
         if (files != null && files.length > 0) {
             MultipartFile arquivo = files[0];
+            // Concatena um Random + nome do arquivo - isso evita arquivos com nomes repetidos
             novoNome = renomearArquivo(arquivo.getOriginalFilename());
             try {
                 arquivo.transferTo(new File(this.localTemporario.toAbsolutePath().toString()

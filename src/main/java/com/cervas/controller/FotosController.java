@@ -33,18 +33,25 @@ public class FotosController {
 	public DeferredResult<FotoDTO> upload(@RequestParam("files[]") MultipartFile[] files) {
 		DeferredResult<FotoDTO> resultado = new DeferredResult<>(); 
 		
-		//Recebe arquivos do file e retorna resultado
+		//Recebe arquivos do file e retorna resultado depois do processamento na nova thread
+		// 1. Envia o resultado para preencher o value e contextType na View e ao clicar em enviar salva no banco 
+		// 2. Cria pastas temporário e local através do fotoStorage 
+		// 3. Chama apenas o método salvarTemporariamente
+		// 4. salvarLocal é chamada pelo eventListener após o cadastro da cerveja
 		Thread thread = new Thread(new FotoStorageRunnable(files, resultado, fotoStorage));
 		thread.start();
 		
 		return resultado;
 	}
 	
+	// Recuperar foto para visualização após adiciona-lá no formulário
+	// O '*' serve para adicionar uma extensão, tipo 'html'
 	@GetMapping("temp/{nome:.*}")
 	public byte[] recuperarFotoTemporaria(@PathVariable String nome) {
 		return fotoStorage.recuperarFotoTemporaria(nome);
 	}
 
+	// Recuperar foto para visualização na tela de listagem
 	@GetMapping("/{nome:.*}")
 	public byte[] recuperarFoto(@PathVariable String nome) {
 		return fotoStorage.recuperarFoto(nome);

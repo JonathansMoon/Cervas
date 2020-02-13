@@ -21,7 +21,8 @@ public class FotoStorageRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		//Salva a foto no sistema de arquivos
+		//Retorna o resultado para salvar a foto no banco
+		//Retorna o Random + nome do aquivo para a variavel nomeFoto apos salvar temporariamente na pasta
 		String nomeFoto = fotoStorage.salvarTemporariamente(files);
 		String contentType = files[0].getContentType();
 		//.setResult() Informa que o resultado está pronto e carrega valores
