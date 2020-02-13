@@ -1,7 +1,5 @@
 package com.cervas.controller;
 
-
-
 import com.cervas.controller.page.PageWrapper;
 import com.cervas.model.Estilo;
 import com.cervas.repository.Estilos;
@@ -9,16 +7,10 @@ import com.cervas.repository.filter.EstiloFilter;
 import com.cervas.service.CadastroEstiloService;
 import com.cervas.service.exception.NomeEstiloJaCadastradoException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
