@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  db:
+    image: mysql
+    container_name: cervas-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: "cervas"
+    restart: always
+    volumes:
+      - /home/jonathan/Docker/Volumes/MySql:/var/lib/mysql
+    ports:
+      - 3308:3306
+
+  adminer:
+    image: adminer
+    container_name: cervas-adminer
+    restart: always
+    ports:
+      - 8000:8080

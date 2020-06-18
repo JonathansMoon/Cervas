@@ -1,0 +1,8 @@
+<!--Bloco de alerta de Erro-->
+<div id="js-boxErro" class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}" th:fragment="mensagemErro">
+    <button id="fecharErro" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div th:each="erro : ${#fields.detailedErrors()}">
+        <i class="fa  fa-exclamation-circle"></i> 
+        <span th:text ="${erro.message}"></span>
+    </div>
+</div>
