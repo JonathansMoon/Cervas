@@ -4,6 +4,8 @@ Cervas.MaskCpfCnpj = (function() {
 
     function MaskCpfCnpj() {
         this.radioTipoPessoa = $('.js-radio-tipo-pessoa');
+        this.labelCpfCnpj = $('[for=cpfOuCnpj]');
+        this.inputCpfCnpj = $('#cpfOuCnpj');
     }
 
     MaskCpfCnpj.prototype.iniciar = function() {
@@ -11,8 +13,11 @@ Cervas.MaskCpfCnpj = (function() {
     }
 
     function onTipoPessoaAlterado(event) {
-        console.log("ssdsadasdas", event);
-        
+        var tipoPessoaSelecionada = $(event.currentTarget);
+        this.labelCpfCnpj.text(tipoPessoaSelecionada.data('documento'));
+        this.inputCpfCnpj.mask(tipoPessoaSelecionada.data('mascara'));
+        this.inputCpfCnpj.val('');
+        this.inputCpfCnpj.removeAttr('disabled')
     }
 
     return MaskCpfCnpj;

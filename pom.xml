@@ -16,6 +16,7 @@
     <java.version>1.8</java.version>
     <!-- Thumbnail reduzir imagem -->
     <thumbnailator.version>[0.4, 0.5)</thumbnailator.version>
+    <thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
   </properties>
   <dependencies>
     <dependency>
@@ -72,9 +73,15 @@
     </dependency>
     <!-- Para o retorno de imagem GET -->
     <dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-	</dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+    <!-- thymeleaf extras data attribute -->
+    <dependency>
+        <groupId>com.github.mxab.thymeleaf.extras</groupId>
+        <artifactId>thymeleaf-extras-data-attribute</artifactId>
+        <version>${thymeleaf-extras-data-attribute.version}</version>
+    </dependency>
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>

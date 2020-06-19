@@ -2,6 +2,7 @@
 <html 
 	xmlns="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
 	layout:decorate="~{layout/LayoutPadrao}">
 
 <head>
@@ -50,20 +51,21 @@
 					<div class="form-group col-sm-4">
 						<label for="tipoPessoa">Tipo pessoa</label>
 						<div>
-							<div class="radio radio-inline">
-								<input type="radio" name="tipoPessoa" id="id_FISICA" class="js-radio-tipo-pessoa">
-								<label class="control-label" for="id_FISICA">Física</label>
-							</div>
-							<div class="radio radio-inline">
-								<input type="radio" name="tipoPessoa" id="id_JURIDICA">
-								<label class="control-label" for="id_JURIDICA" class="js-radio-tipo-pessoa">Jurídica</label>
-							</div>
+
+							<th:block th:each="tipoPessoa : ${tiposPessoa}">
+								<div class="radio radio-inline">
+									<input type="radio" name="tipoPessoa" th:id="|id_${tipoPessoa}|" 
+										class="js-radio-tipo-pessoa" 
+										data:documento="${tipoPessoa.documento}" data:mascara="${tipoPessoa.mascara}">
+									<label class="control-label" th:for="|id_${tipoPessoa}|" th:text="${tipoPessoa.descricao}">Física</label>
+								</div>
+							</th:block>
 						</div>	
 					</div>
 
 					<div class="form-group  col-sm-8">
-						<label for="cpf">CPF/CNPJ</label>
-						<input type="text" class="form-control" disabled>
+						<label for="cpfOuCnpj">CPF/CNPJ</label>
+						<input type="text" class="form-control" id="cpfOuCnpj" disabled>
 					</div>
 
 				</div>	
@@ -132,7 +134,8 @@
 		<!--Mascaras de Input-->
 		<script src="/custom/javascripts/maskText.js"></script>
 		<script src="/vendors/javascripts/jquery.maskMoney.min.js"></script>	
-		<script src="/custom/javascripts/cliente.mascara-cpf-cnpj.js"></script>	
+		<script src="/custom/javascripts/mask-cpf-cnpj.js"></script>
+		<script src="/custom/javascripts/mask-cep.js"></script>	
 	</th:block>	
 
 </body>
