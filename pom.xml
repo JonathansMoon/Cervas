@@ -103,6 +103,19 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      
+	<!--flyway Config -->
+	
+		<plugin>
+			<groupId>com.googlecode.flyway</groupId>
+			<artifactId>flyway-maven-plugin</artifactId>
+			<configuration>
+				<initOnMigrate>true</initOnMigrate>
+				<url>jdbc:mysql://localhost:3308/cervas</url>
+				<user>root</user>
+				<password>123456</password>
+			</configuration>
+		</plugin>
     </plugins>
   </build>
 </project>
