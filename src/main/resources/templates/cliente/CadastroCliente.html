@@ -96,9 +96,13 @@
 
 					<div class="form-group col-sm-4">
 						<label for="cidade">Cidade</label>
-						<select id="cidade" class="form-control">
-							<option value="" data:url"@{/cidades}">Selecione a Cidade</option>
-						</select>
+						<div class="cv-field-action">
+							<select id="cidade" class="form-control"  data:url="@{/cidades}" disabled>
+							</select>
+							<div class="cv-field-action__icon js-img-loading" style="display: none">
+								<img th:src="@{/images/mini-loading.gif}">
+							</div>
+						</div>	
 					</div> 
 				</div>	
 

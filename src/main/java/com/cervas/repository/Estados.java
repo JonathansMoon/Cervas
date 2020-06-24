@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.cervas.model.Estado;
 
 @Repository
-public interface Estados extends JpaRepository<Estado, Integer> {
+public interface Estados extends JpaRepository<Estado, Long> {
 
     public Optional<Estado> findByNomeIgnoreCase(String nome);
 

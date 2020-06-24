@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.cervas.model.Cidade;
 
 @Repository
-public interface Cidades extends JpaRepository<Cidade, Integer> {
+public interface Cidades extends JpaRepository<Cidade, Long> {
 	public List<Cidade> findByEstadoCodigo(Long codigoEstado);
 }

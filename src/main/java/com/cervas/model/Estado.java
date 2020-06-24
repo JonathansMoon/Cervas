@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "estado")
 public class Estado implements Serializable {
@@ -20,26 +22,28 @@ public class Estado implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer codigo;
+	Long codigo;
 	@NotBlank(message = "Nome é obrigatório")
 	String nome;
 	@NotBlank(message = "Sigla é obrigatória")
 	String sigla;
 	@OneToMany(mappedBy = "estado")
+	@JsonManagedReference
 	List<Cidade> cidade;
 	
 	public Estado() {
 		
 	}
 
-	public Estado(Integer codigo, String nome, String sigla, List<Cidade> cidade) {
+	public Estado(Long codigo, @NotBlank(message = "Nome é obrigatório") String nome,
+			@NotBlank(message = "Sigla é obrigatória") String sigla, List<Cidade> cidade) {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.sigla = sigla;
 		this.cidade = cidade;
 	}
 
-	public Integer getCodigo() {
+	public Long getCodigo() {
 		return codigo;
 	}
 
@@ -54,6 +58,5 @@ public class Estado implements Serializable {
 	public List<Cidade> getCidade() {
 		return cidade;
 	}
-
 
 }

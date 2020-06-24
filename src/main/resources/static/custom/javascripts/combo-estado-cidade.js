@@ -26,19 +26,53 @@ Cervas.ComboCidade = (function() {
 	function ComboCidade(comboEstado) {
 		this.comboEstado = comboEstado;
 		this.combo = $('#cidade');
+		this.imgLoading = $('.js-img-loading');
 	}
 	
 	ComboCidade.prototype.iniciar = function() {
 		this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
 	}
 	
-	function onEstadoAlterado(evento, codigoEstado) {
-		var resposta = $.ajax({
-			url: this.combo.data('url'),
-			method: 'GET',
-			contentType: 'application/json',
-			data: { 'estado': codigoEstado }
-		});
+	function onEstadoAlterado(evento, codigoEstado) {	
+		if(codigoEstado){
+			var resposta = $.ajax({
+				url: this.combo.data('url'),
+				method: 'GET',
+				contentType: 'application/json',
+				data: { 'estado': codigoEstado },
+				beforeSend: iniciarRequisicao.bind(this), 
+				complete: finalizarRequisicao.bind(this),
+			});
+			
+			resposta.done(onBuscarCidadesFinalizado.bind(this));
+		} else {
+			reset.call(this)
+		}
+	}
+	
+	function onBuscarCidadesFinalizado(cidades) {
+		var options = [];
+		cidades.forEach(function(cidade) {
+			options.push('<option value"' + cidade.codigo + '">' + cidade.nome + '</option>' );
+		}); 
+		
+		this.combo.html(options.join(''));
+		this.combo.removeAttr('disabled');
+		
+	}
+	
+	function reset() {
+		this.combo.html('<option value="">Selecione a Cidade</option>');
+		this.combo.vall('');
+		this.combo.attr('disabled', 'disabled');
+	}
+
+	function iniciarRequisicao() {
+		this.imgLoading.show();
+	}
+
+	function finalizarRequisicao() {
+		this.imgLoading.hide();
 	}
 	
 	return ComboCidade;
