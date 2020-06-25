@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cervas.model.Cliente;
 import com.cervas.model.TipoPessoa;
 import com.cervas.repository.Estados;
 
@@ -17,7 +18,7 @@ public class ClientesController {
     
     
     @RequestMapping("novo")
-    public ModelAndView novo() {
+    public ModelAndView novo(Cliente cliente) {
         ModelAndView mv = new ModelAndView("cliente/CadastroCliente");
         mv.addObject("tiposPessoa", TipoPessoa.values());
         mv.addObject("estados", estados.findAll());

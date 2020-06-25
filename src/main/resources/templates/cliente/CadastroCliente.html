@@ -3,7 +3,8 @@
 	xmlns="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:data="http://www.thymeleaf.org/extras/data"
-	layout:decorate="~{layout/LayoutPadrao}">
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cervas="http://cervas.com">
 
 <head>
 	<title>Cadastro de cliente</title>
@@ -24,27 +25,15 @@
 
 		<div class="container-fluid">
 
-			<form method="POST" th:object="${cerveja}"  class="form-vertical  js-form-loading">
+			<form method="POST" th:object="${cliente}"  class="form-vertical  js-form-loading">
 				
-				<!--Bloco de alerta de Erro
-				<div id="js-boxErro" class="alert  alert-danger  alert-dismissible" role="alert">
-					<button id="fecharErro" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div>
-						<i class="fa  fa-exclamation-circle"></i> 
-						<span></span>
-					</div>
-				</div>
--->
-				<!--Bloco de Sucesso
-				<div class="alert alert-success">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<span></span>
-				</div>
--->
+				<!--Bloco de alerta de Erro-->
+				<cervas:message/>
+				
 				<div class="row">
 					<div class="form-group col-sm-12">
 						<label for="nome">Nome</label>
-						<input type="text" id="nome" class="form-control">
+						<input type="text" id="nome" class="form-control" th:field="*{nome}">
 					</div>
 				</div>	
 				<div class="row">
@@ -54,8 +43,8 @@
 
 							<th:block th:each="tipoPessoa : ${tiposPessoa}">
 								<div class="radio radio-inline">
-									<input type="radio" name="tipoPessoa" th:id="|id_${tipoPessoa}|" 
-										class="js-radio-tipo-pessoa" 
+									<input type="radio" th:field="*{tipoPessoa}"  th:value="${tipoPessoa}"
+										th:id="|id_${tipoPessoa}|" class="js-radio-tipo-pessoa" 
 										data:documento="${tipoPessoa.documento}" data:mascara="${tipoPessoa.mascara}">
 									<label class="control-label" th:for="|id_${tipoPessoa}|" th:text="${tipoPessoa.descricao}">Física</label>
 								</div>
@@ -65,25 +54,25 @@
 
 					<div class="form-group  col-sm-8">
 						<label for="cpfOuCnpj">CPF/CNPJ</label>
-						<input type="text" class="form-control" id="cpfOuCnpj" disabled>
+						<input type="text" class="form-control" id="cpfOuCnpj" th:field="*{cpfOuCnpj}" disabled>
 					</div>
 
 				</div>	
 				<div class="row">
 					<div class=" form-group col-sm-4">
 						<label for="telefone">Telefone</label>
-						<input id="telefone" name="telefone" type="text" class="form-control js-phone-number"/>
+						<input id="telefone" name="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}"/>
 					</div>
 					<div class="form-group col-sm-8">
 						<label for="email">Email</label>
-						<input type="text" id="email" class="form-control">
+						<input type="text" id="email" class="form-control" th:field="*{email}">
 					</div>
 				</div>	
 
 				<div class="row">
 					<div class=" form-group col-sm-4">
 						<label for="cep">CEP</label>
-						<input id="cep" name="cep" type="text" class="form-control"/>
+						<input id="cep" name="cep" type="text" class="form-control" th:field="*{endereco.cep}"/>
 					</div>
 
 					<div class="form-group col-sm-4">
@@ -97,7 +86,7 @@
 					<div class="form-group col-sm-4">
 						<label for="cidade">Cidade</label>
 						<div class="cv-field-action">
-							<select id="cidade" class="form-control"  data:url="@{/cidades}" disabled>
+							<select id="cidade" class="form-control"  data:url="@{/cidades}" th:filed="*{endereco.cidade}" disabled>
 							</select>
 							<div class="cv-field-action__icon js-img-loading" style="display: none">
 								<img th:src="@{/images/mini-loading.gif}">
@@ -109,17 +98,17 @@
 				<div class="row">
 					<div class=" form-group col-sm-4">
 						<label for="logradouro">Logradouro</label>
-						<input id="logradouro" name="logradouro" type="text" class="form-control"/>
+						<input id="logradouro" name="logradouro" type="text" class="form-control" th:field="*{endereco.logradouro}"/>
 					</div>
 
 					<div class="form-group col-sm-4">
 						<label for="numero">Número</label>
-						<input type="text" id="numero" class="form-control">
+						<input type="text" id="numero" class="form-control" th:field="*{endereco.numero}">
 					</div>
 
 					<div class="form-group col-sm-4">
 						<label for="complemento">Complemento</label>
-						<input type="text" id="complemento" class="form-control">
+						<input type="text" id="complemento" class="form-control" th:field="*{endereco.complemento}">
 					</div>
 				</div>	
 

@@ -31,6 +31,7 @@ Cervas.ComboCidade = (function() {
 	
 	ComboCidade.prototype.iniciar = function() {
 		this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
+		reset.call(this)
 	}
 	
 	function onEstadoAlterado(evento, codigoEstado) {	
@@ -63,11 +64,12 @@ Cervas.ComboCidade = (function() {
 	
 	function reset() {
 		this.combo.html('<option value="">Selecione a Cidade</option>');
-		this.combo.vall('');
+		this.combo.val('');
 		this.combo.attr('disabled', 'disabled');
 	}
 
 	function iniciarRequisicao() {
+		reset.call(this)
 		this.imgLoading.show();
 	}
 
