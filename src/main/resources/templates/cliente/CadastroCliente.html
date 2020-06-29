@@ -77,7 +77,7 @@
 
 					<div class="form-group col-sm-4 cv-required" cervas:classforerror="endereco.cidade.estado">
 						<label for="estado" class="control-label">Estado</label>
-						<select id="estado" class="form-control">
+						<select id="estado" class="form-control" th:field="*{endereco.estado}">
 							<option value="">Selecione o Estado</option>
 							<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">Selecione o Estado</option>
 						</select>
@@ -86,7 +86,8 @@
 					<div class="form-group col-sm-4 cv-required" cervas:classforerror="endereco.cidade">
 						<label for="cidade" class="control-label">Cidade</label>
 						<div class="cv-field-action">
-							<select id="cidade" class="form-control"  data:url="@{/cidades}" th:filed="*{endereco.cidade}" disabled>
+							<input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}" />
+							<select id="cidade" class="form-control"  data:url="@{/cidades}" th:field="*{endereco.cidade}" disabled>
 							</select>
 							<div class="cv-field-action__icon js-img-loading" style="display: none">
 								<img th:src="@{/images/mini-loading.gif}">
