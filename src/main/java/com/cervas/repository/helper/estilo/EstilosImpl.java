@@ -78,7 +78,6 @@ public class EstilosImpl implements EstilosQueries{
 		if (sort.isSorted()) {
 			Sort.Order order = sort.iterator().next();
 			String property = order.getProperty();
-			System.out.println(">>> : " + sort);
 			criteria.orderBy(order.isAscending() ? builder.asc(root.get(property)) :  builder.desc(root.get(property)));
 		}
 		
