@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cervas.controller.page.PageWrapper;
 import com.cervas.model.Cliente;
 import com.cervas.model.TipoPessoa;
 import com.cervas.repository.Clientes;
@@ -66,7 +67,9 @@ public class ClientesController {
     		@PageableDefault(size=2) Pageable pageable, HttpServletRequest httpServletRequest) {
     	
     	ModelAndView mv = new ModelAndView("cliente/PesquisaCliente");
-    	mv.addObject("clientes", clientes.filter(clienteFilter, pageable));
+    	
+    	PageWrapper<Cliente> clienteWrapper = new PageWrapper<>(clientes.filtrar(clienteFilter, pageable), httpServletRequest);
+    	mv.addObject("pagina", clienteWrapper);
     	
     	return mv;
     }

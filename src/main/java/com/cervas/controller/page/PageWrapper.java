@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class PageWrapper<T> {
 	
 	private Page<T> page;
+	//	Monta as uris
 	private UriComponentsBuilder uriBuilder;
 	
 	public PageWrapper(Page<T> page, HttpServletRequest httpServletRequest) {
@@ -20,6 +21,10 @@ public class PageWrapper<T> {
 		this.uriBuilder = ServletUriComponentsBuilder.fromRequest(httpServletRequest);
 	}
 
+	//	Resumindo métodos
+	//	pagina.getConteudo
+	//	no lugar de
+	//	page.getContent
 	public List<T> getConteudo() {
 		return page.getContent();
 	}

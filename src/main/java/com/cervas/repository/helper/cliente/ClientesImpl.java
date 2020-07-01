@@ -1,8 +1,6 @@
 package com.cervas.repository.helper.cliente;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,7 +11,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
+
 import com.cervas.model.Cliente;
+import com.cervas.model.Cliente_;
 import com.cervas.repository.filter.ClienteFilter;
 
 public class ClientesImpl implements ClientesQueries{
@@ -22,7 +27,7 @@ public class ClientesImpl implements ClientesQueries{
 	private EntityManager manager;
 
 	@Override
-	public List<Cliente> filter(ClienteFilter filtro, Pageable pageable) {
+	public Page<Cliente> filtrar(ClienteFilter parametrosDoFiltro, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
@@ -31,7 +36,7 @@ public class ClientesImpl implements ClientesQueries{
 		adicionarOrdenacao(criteria, pageable, builder, root);
 		
 		//	Adiciona filtros
-		Predicate[] predicatesArray = criarResticoes(filtro, builder, root);
+		Predicate[] predicatesArray = criarRestricoes(parametrosDoFiltro, builder, root);
 		
 		criteria.where(predicatesArray);
 		
@@ -39,9 +44,20 @@ public class ClientesImpl implements ClientesQueries{
 		TypedQuery<Cliente> query = manager.createQuery(criteria);
 		adicionarPaginacao(query, pageable);
 		
-		return null;
+		return new PageImpl<>(query.getResultList(), pageable, total(parametrosDoFiltro));
 	}
 
+	private Long total(ClienteFilter parametrosDoFiltro) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		
+		Predicate[] predicates = criarRestricoes(parametrosDoFiltro, builder, root);
+		criteria.where(predicates);
+		
+		criteria.select(builder.count(root));
+		return manager.createQuery(criteria).getSingleResult();
+	}
 
 	//	Adiciona Ordenacao
 	private void adicionarOrdenacao(CriteriaQuery<Cliente> criteria, Pageable pageable, CriteriaBuilder builder,
@@ -58,12 +74,26 @@ public class ClientesImpl implements ClientesQueries{
 	}
 	
 	//	Cria Resticoes
-	private Predicate[] criarResticoes(ClienteFilter filtro, CriteriaBuilder builder, Root<Cliente> root) {
-		return null;
+	private Predicate[] criarRestricoes(ClienteFilter parametrosDoFiltro, CriteriaBuilder builder, Root<Cliente> root) {
+		
+		List<Predicate> predicates = new ArrayList<>();
+		
+		if (!StringUtils.isEmpty(parametrosDoFiltro.getNome())) {
+			predicates.add(builder.like(root.get(Cliente_.nome), "%" + parametrosDoFiltro.getNome() + "%"));
+		}
+		
+		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 	
 	// Método de Paginação
 	private void adicionarPaginacao(TypedQuery<Cliente> query, Pageable pageable) {
+		
+		int paginaAtual = pageable.getPageNumber();
+		int totalRegistrosPorPaginacao = pageable.getPageSize();
+		int primeiroRegistro = paginaAtual * totalRegistrosPorPaginacao;
+		
+		query.setFirstResult(primeiroRegistro);
+		query.setMaxResults(totalRegistrosPorPaginacao);
 		
 	}
 	

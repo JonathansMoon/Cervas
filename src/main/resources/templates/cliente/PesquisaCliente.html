@@ -49,13 +49,31 @@
 					<table class="table table-hover">	
 						<thead>
 							<tr>
-								<th>Nome</th>
-								<th></th>
+								<th class="table-cervejas-col-nome">
+		                            <th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'nome', 'Nome')">
+		                            </th:block>
+		                        </th>
+		                        
+								<th class="table-cervejas-col-tipoPessoa">
+		                            <th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'tipoPessoa', 'TipoPessoa')">
+		                            </th:block>
+		                        </th>
+		                        
+		                        <th class="table-cervejas-col-cpfCnpj">
+		                            <th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'cpfOuCnpj', 'CPF/CNPJ')">
+		                            </th:block>
+		                        </th>
+		                        
+								<th>
+
+								</th>
 							</tr>
 						</thead>		
 						<tbody>
 							<tr th:each="cliente : ${pagina.conteudo}">
 								<td th:text="${cliente.nome}"></td>
+								<td th:text="${cliente.tipoPessoa.descricao}"></td>
+								<td th:text="${cliente.cpfOuCnpj}"></td>
 								<td class="text-right">
 	                                <a href="btn btn-link btn-xs js-tooltip" title="Editar">
 	                                    <i class="glyphicon glyphicon-pencil"></i>
@@ -72,9 +90,9 @@
 					</table>
 				</div>	
 				
-				<div>
+				<div th:if="${!pagina.vazio}">
 					<nav aria-label="..."> 
-						<ul class="pagination" th:with="paginaAtual=${pagina.atual}">
+						<u l class="pagination" th:with="paginaAtual=${pagina.atual}">
 							<li th:class="${pagina.primeira} ? disabled ">
 								<a th:remove="${pagina.primeira} ? tag" class="page-link" th:href="${pagina.urlParaPagina(paginaAtual - 1)}" tabindex="-1">
 									<span class="page-link">Anterior</span>
@@ -86,7 +104,7 @@
 								</li>
 							</th:block>
 							<li th:class="${pagina.ultima} ? disabled">
-								<a th:remove="pagina.ultima ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}">
+								<a th:remove="${pagina.ultima} ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}">
 									<span class="page-link">Próximo</span>
 								</a>
 							</li>

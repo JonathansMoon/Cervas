@@ -34,7 +34,7 @@ public class EstilosImpl implements EstilosQueries{
 		
 		adicionarOrdenacao(criteria, pageable, builder, root);
 		
-		Predicate[] predicatesArray = criarResticoes(parametrosDoFiltro, builder, root);
+		Predicate[] predicatesArray = criarRestricoes(parametrosDoFiltro, builder, root);
 		
 		criteria.where(predicatesArray);
 		
@@ -50,7 +50,7 @@ public class EstilosImpl implements EstilosQueries{
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
 		Root<Estilo> root = criteria.from(Estilo.class);
 		
-		Predicate[] predicates = criarResticoes(parametrosDoFiltro, builder, root);
+		Predicate[] predicates = criarRestricoes(parametrosDoFiltro, builder, root);
 		criteria.where(predicates);
 		
 		criteria.select(builder.count(root));
@@ -65,6 +65,7 @@ public class EstilosImpl implements EstilosQueries{
 		int primeiroRegistro = paginaAtual * totalRegistrosPorPaginacao;
 		
 		query.setFirstResult(primeiroRegistro);
+		// Quantidade de registro por pagina
 		query.setMaxResults(totalRegistrosPorPaginacao);
 		
 	}
@@ -83,7 +84,7 @@ public class EstilosImpl implements EstilosQueries{
 		
 	}
 
-	private Predicate[] criarResticoes(EstiloFilter parametrosDoFiltro, CriteriaBuilder builder, Root<Estilo> root) {
+	private Predicate[] criarRestricoes(EstiloFilter parametrosDoFiltro, CriteriaBuilder builder, Root<Estilo> root) {
 		
 		// Cria um arrayList e guarda em uma lista de Predicates
 		List<Predicate> predicates = new ArrayList<>();

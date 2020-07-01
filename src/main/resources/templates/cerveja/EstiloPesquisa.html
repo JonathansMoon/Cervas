@@ -72,7 +72,7 @@
 					</table>
 				</div>	
 				
-				<div>
+				<div  th:if="${!pagina.vazio}">
 					<nav aria-label="..."> 
 						<ul class="pagination" th:with="paginaAtual=${pagina.atual}">
 							<li th:class="${pagina.primeira} ? disabled ">
@@ -86,7 +86,7 @@
 								</li>
 							</th:block>
 							<li th:class="${pagina.ultima} ? disabled">
-								<a th:remove="pagina.ultima ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}">
+								<a th:remove="${pagina.ultima} ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}">
 									<span class="page-link">Próximo</span>
 								</a>
 							</li>
