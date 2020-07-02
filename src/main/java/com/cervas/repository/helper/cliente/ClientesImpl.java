@@ -77,10 +77,14 @@ public class ClientesImpl implements ClientesQueries{
 	private Predicate[] criarRestricoes(ClienteFilter parametrosDoFiltro, CriteriaBuilder builder, Root<Cliente> root) {
 		
 		List<Predicate> predicates = new ArrayList<>();
-		
-		if (!StringUtils.isEmpty(parametrosDoFiltro.getNome())) {
-			predicates.add(builder.like(root.get(Cliente_.nome), "%" + parametrosDoFiltro.getNome() + "%"));
-		}
+		if (parametrosDoFiltro != null) {
+			if (!StringUtils.isEmpty(parametrosDoFiltro.getNome())) {
+				predicates.add(builder.like(root.get(Cliente_.nome), "%" + parametrosDoFiltro.getNome() + "%"));
+			}
+			if (!StringUtils.isEmpty(parametrosDoFiltro.getCpfOuCnpj())) {
+				predicates.add(builder.like(root.get(Cliente_.cpfOuCnpj), "%" + parametrosDoFiltro.getCpfOuCnpj() + "%"));
+			}
+		}	
 		
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}

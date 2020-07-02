@@ -36,10 +36,10 @@ public class EstilosController {
 
     @RequestMapping
     public ModelAndView pesquisar(EstiloFilter estiloFilter, BindingResult result, 
-    		@PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
+    		@PageableDefault(size = 4) Pageable pageable, HttpServletRequest httpServletRequest) {
     	
         
-        ModelAndView mv = new ModelAndView("cerveja/EstiloPesquisa");
+        ModelAndView mv = new ModelAndView("estilo/PesquisaEstilo");
         //Ao invés de pegar o page aqui, eu envio ele pro PageWrapper e resgato aqui
         PageWrapper<Estilo> estiloWrapper = new PageWrapper<>(estilos.filtrar(estiloFilter, pageable), httpServletRequest);
         mv.addObject("pagina", estiloWrapper);
@@ -50,7 +50,7 @@ public class EstilosController {
     
     @RequestMapping("/novo")
     public ModelAndView novo(Estilo estilo) {
-    	return new ModelAndView("cerveja/CadastroEstilo");
+    	return new ModelAndView("estilo/CadastroEstilo");
     }
     
     //Cadastro na pagina de estilo 
