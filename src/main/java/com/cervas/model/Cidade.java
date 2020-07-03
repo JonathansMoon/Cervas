@@ -34,7 +34,7 @@ public class Cidade implements Serializable {
     	
     }
 
-	public Cidade(Long codigo, @NotBlank(message = "Nome é obrigatório") String nome, Estado estado) {
+	public Cidade(Long codigo, String nome, Estado estado) {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.estado = estado;
@@ -44,12 +44,24 @@ public class Cidade implements Serializable {
 		return codigo;
 	}
 
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getNome() {
 		return nome;
 	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public Estado getEstado() {
 		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 }

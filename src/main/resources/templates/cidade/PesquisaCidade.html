@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cervas="http://cervas.com">
+	<head>
+	    <link rel="stylesheet" type="text/css" href="/custom/stylesheets/cervas.css"/>
+	    <title>Pesquisa de Cidade</title>
+	</head>		
+
+	<body>
+		<section class="aw-layout-content  js-content" layout:fragment="conteudo">
+			
+			<!--Titulo do cadastro-->
+			<div class="page-header">
+				<div class="container-fluid">	
+	                <div class="row">
+	                    <div class="col-sm-10">
+	                        <h1 class="titulo">
+	                            Pesquisa de cidade
+	                        </h1>
+	                    </div>
+	                    <div class="col-sm-2">
+	                        <div class="aw-page-header-controls">
+	                            <a th:href="@{/clientes/novo}" class="btn btn-default">
+	                                <i class="glyphicon glyphicon-plus-sign"></i>
+	                                <span class="hidden-xs hidden-sm">Nova cidade</span>
+	                            </a>
+	                        </div>
+	                    </div>
+	                </div>	
+				</div>
+	        </div> 
+
+			<div class="container-fluid">
+				<form action="" method="GET" th:object="${cidadeFilter}">
+					<div class="form-group col-sm-4 cv-required">
+						<label for="estado" class="control-label">Estado</label>
+						<select id="estado" class="form-control" th:field="*{estado}">
+							<option value="">Selecione o Estado</option>
+							<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">Selecione o Estado</option>
+						</select>
+					</div>
+
+					<div class="form-group col-sm-4 cv-required" cervas:classforerror="nome">
+						<label for="nome" class="control-label">Cidade</label>
+						<input type="text" id="nome" class="form-control" th:field="*{nome}">
+					</div>
+					
+					<button type="submit" class="btn btn-primary"> Pesquisar</button>
+				
+				</form>
+	
+				<div class="class-responsive cv-tabela-simples">
+					<table class="table table-hover">	
+						<thead>
+							<tr>
+									                        
+								<th class="table-cervejas-col-cidade">                            
+									<a href="">Cidades</a>
+		                        </th>
+		                        
+								<th class="table-cervejas-col-estado">
+		                            <a href="">Estados</a>
+		                        </th>
+
+								<th>
+
+								</th>
+							</tr>
+						</thead>	
+
+						<tbody>
+							<tr th:each="cidade : ${cidades}">
+								<td th:text="${cidade.nome}"></td>
+								<td th:text="${cidade.estado.nome}"></td>
+								<td class="text-right">
+	                                <a href="btn btn-link btn-xs js-tooltip" title="Editar">
+	                                    <i class="glyphicon glyphicon-pencil"></i>
+	                                </a>
+	                                <a href="" class="btn btn-link btn-xs" title="Excluir">
+	                                    <i class="glyphicon glyphicon-remove"></i>
+	                                </a>
+	                            </td>
+							</tr>
+							
+						</tbody>
+							
+<!-- 						<tbody> -->
+<!-- 							<tr th:each="cliente : ${pagina.conteudo}"> -->
+<!-- 								<td th:text="${cliente.nome}"></td> -->
+<!-- 								<td th:text="${cliente.tipoPessoa.descricao}"></td> -->
+<!-- 								<td th:text="${cliente.cpfOuCnpj}"></td> -->
+<!-- 								<td th:text="${cliente.telefone}"></td> -->
+<!-- 								<td th:text="${cliente.endereco.nomeCidadeSiglaEstado}"></td> -->
+<!-- 								<td class="text-right"> -->
+<!-- 	                                <a href="btn btn-link btn-xs js-tooltip" title="Editar"> -->
+<!-- 	                                    <i class="glyphicon glyphicon-pencil"></i> -->
+<!-- 	                                </a> -->
+<!-- 	                                <a href="" class="btn btn-link btn-xs" title="Excluir"> -->
+<!-- 	                                    <i class="glyphicon glyphicon-remove"></i> -->
+<!-- 	                                </a> -->
+<!-- 	                            </td> -->
+<!-- 							</tr> -->
+<!-- 							<tr th:if="${pagina.vazio}"> -->
+<!-- 								<td colspan="2"> Não possui nenhum produto cadastrado!</td> -->
+<!-- 							</tr> -->
+<!-- 						</tbody>									 -->
+					</table>
+				</div>	
+				
+				<div>
+					<nav aria-label="...">
+					  <ul class="pagination">
+					    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+					    <li class="page-item"><a class="page-link" href="?page=0">1</a></li>
+					    <li class="page-item"><a class="page-link" href="?page=1">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>
+				</div>
+				
+<!-- 				<div th:if="${!pagina.vazio}"> -->
+<!-- 					<nav aria-label="...">  -->
+<!-- 						<ul class="pagination" th:with="paginaAtual=${pagina.atual}"> -->
+<!-- 							<li th:class="${pagina.primeira} ? disabled "> -->
+<!-- 								<a th:remove="${pagina.primeira} ? tag" class="page-link" th:href="${pagina.urlParaPagina(paginaAtual - 1)}" tabindex="-1"> -->
+<!-- 									<span class="page-link">Anterior</span> -->
+<!-- 								</a>	 -->
+<!-- 							</li> -->
+<!-- 							<th:block th:each="p : ${#numbers.sequence(1, pagina.total)}" th:with="numeroPagina=${p - 1}"> -->
+<!-- 								<li th:class="${paginaAtual == numeroPagina} ? active"> -->
+<!-- 									<a th:href="${pagina.urlParaPagina(numeroPagina)}">[[${p}]]</a> -->
+<!-- 								</li> -->
+<!-- 							</th:block> -->
+<!-- 							<li th:class="${pagina.ultima} ? disabled"> -->
+<!-- 								<a th:remove="${pagina.ultima} ? tag" th:href="${pagina.urlParaPagina(paginaAtual + 1)}"> -->
+<!-- 									<span class="page-link">Próximo</span> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+<!-- 						</ul> -->
+<!-- 					</nav> -->
+<!-- 				</div> -->
+				
+			</div>	
+		</section>
+	</body>
+</html>
