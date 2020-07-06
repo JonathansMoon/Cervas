@@ -17,6 +17,8 @@
     <!-- Thumbnail reduzir imagem -->
     <thumbnailator.version>[0.4, 0.5)</thumbnailator.version>
     <thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
+    <!-- Cache Guava Google -->
+    <guava.version>29.0-jre</guava.version>
   </properties>
   <dependencies>
     <dependency>
@@ -82,6 +84,12 @@
         <artifactId>thymeleaf-extras-data-attribute</artifactId>
         <version>${thymeleaf-extras-data-attribute.version}</version>
     </dependency>
+	<!-- Cache Guava Google -->
+	<dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+	  <version>${guava.version}</version>
+	</dependency>
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>

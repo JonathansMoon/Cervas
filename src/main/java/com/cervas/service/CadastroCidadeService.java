@@ -26,7 +26,7 @@ public class CadastroCidadeService {
 			throw new EstadoJaPossuiCidadeCadastradaException("Este estado já possui a cidade informada!");
 		}
 		
-//		cidades.save(cidade);
+		cidades.save(cidade);
 	}
 
 }
