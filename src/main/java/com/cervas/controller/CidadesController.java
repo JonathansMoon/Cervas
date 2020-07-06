@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cervas.controller.page.PageWrapper;
 import com.cervas.model.Cidade;
 import com.cervas.repository.Cidades;
 import com.cervas.repository.Estados;
@@ -66,12 +67,14 @@ public class CidadesController {
 
 	@GetMapping()
 	public ModelAndView pesquisar(CidadeFilter cidadeFilter, BindingResult result,
-			HttpServletRequest httpServletRequest, @PageableDefault(size = 5) Pageable pageable) {
+			@PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 
 		ModelAndView mv = new ModelAndView("cidade/PesquisaCidade");
 		mv.addObject("estados", estados.findAll());
 		
-		mv.addObject("cidades", cidades.filtrar(cidadeFilter, pageable));
+		PageWrapper<Cidade> cidadeWrapper = new PageWrapper<>(cidades.filtrar(cidadeFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", cidadeWrapper);
+				
 		return mv;
 	}
 
