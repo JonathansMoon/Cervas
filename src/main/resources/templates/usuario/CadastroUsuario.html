@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html 
+	xmlns="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cervas="http://cervas.com">
+
+<head>
+	<title>Cadastro de usuário</title>
+	<link rel="stylesheet" type="text/css" href="/custom/stylesheets/showmore-default.css"/>
+	<link rel="stylesheet" type="text/css" href="/custom/stylesheets/cervas.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendors/stylesheets/bootstrap-switch.min.css"/>
+</head>
+<body>
+	<section class="aw-layout-content  js-content" layout:fragment="conteudo">
+
+		<!--Titulo do cadastro-->
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de usuário
+				</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading">
+				
+				<!--Bloco de alerta de Erro-->
+				<cervas:message/>
+				
+				<div class="row">
+					<div class="form-group col-sm-12 cv-required" cervas:classforerror="nome">
+						<label for="nome" class="control-label">Nome</label>
+						<input type="text" id="nome" class="form-control" th:field="*{nome}">
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class="form-group col-lg-4 col-sm-5  cv-required" cervas:classforerror="email">
+						<label for="email" class="control-label">Email</label>
+						<input type="text" id="email" class="form-control" th:field="*{email}">
+					</div>
+
+					<div class=" form-group col-lg-2 col-sm-3">
+						<label for="dataNascimento" class="control-label">Data de nascimento</label>
+						<input id="dataNascimento" name="dataNascimento" type="date" class="form-control" th:field="*{data_nascimento}"/>
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class="form-group col-lg-2 col-sm-2  cv-required" cervas:classforerror="senha">
+						<label for="senha" class="control-label">Senha</label>
+						<input type="password" id="senha" class="form-control" th:field="*{senha}">
+					</div>
+
+					<div class="form-group col-lg-2 col-sm-3  cv-required" cervas:classforerror="confirmacaoSenha">
+						<label for="confSenha" class="control-label">Confirmação da senha</label>
+						<input type="password" id="confSenha" class="form-control"  th:field="*{confirmacaoSenha}">
+					</div>
+
+					<div class="form-group  col-lg-2 col-sm-2">
+						<label for="status" class="control-label"> Status</label>
+						<div>
+							<div>
+								<input type="checkbox" name="status" class="js-status" 
+								data-size="small" data-off-color="danger" 
+								data-on-text="Ativo" data-off-text="Inativo">
+							</div>
+						</div>	
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class="form-group col-lg-3 col-sm-4  cv-required" >
+						<label for="grupos" class="control-label">Grupos</label>
+						<div>
+							<div class="radio radio-inline">
+								<input type="radio" name="grupos" id="grupos">
+								<label for="grupos" class="control-label">Administrador</label>
+							</div>
+							<div class="radio radio-inline">	
+								<input type="radio" name="grupos" id="grupos">
+								<label for="grupos" class="control-label">Vendedor</label>
+							</div>
+						</div>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+			</form>
+
+		</div>	
+
+	</section>
+
+	<th:block layout:fragment="javascripts">
+		<!--Expandir menssagem de erro - Sanfona-->
+		<script src="/custom/javascripts/moreText.js"></script>	
+		<script src="/vendors/javascripts/jquery.show-more.js"></script>
+		<!--Mascaras de Input-->
+		<script src="/custom/javascripts/maskText.js"></script>
+		<script src="/vendors/javascripts/jquery.maskMoney.min.js"></script>
+		<!--Checkbox persolizado-->
+		<script src="/vendors/javascripts/bootstrap-switch.min.js"></script>	
+		<script>
+			$('.js-status').bootstrapSwitch();
+		</script>
+	</th:block>	
+
+</body>
+
+</html>

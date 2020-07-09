@@ -16,9 +16,7 @@
     <java.version>1.8</java.version>
     <!-- Thumbnail reduzir imagem -->
     <thumbnailator.version>[0.4, 0.5)</thumbnailator.version>
-    <thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
-    <!-- Cache Guava Google -->
-    <guava.version>29.0-jre</guava.version>
+    <beanutils.version>1.9.4</beanutils.version>
   </properties>
   <dependencies>
     <dependency>
@@ -82,14 +80,20 @@
     <dependency>
         <groupId>com.github.mxab.thymeleaf.extras</groupId>
         <artifactId>thymeleaf-extras-data-attribute</artifactId>
-        <version>${thymeleaf-extras-data-attribute.version}</version>
     </dependency>
-	<!-- Cache Guava Google -->
+	<!-- Cache Redis Google -->
 	<dependency>
-	  <groupId>com.google.guava</groupId>
-	  <artifactId>guava</artifactId>
-	  <version>${guava.version}</version>
-	</dependency>
+	  <groupId>org.springframework.boot</groupId>
+	  <artifactId>spring-boot-starter-data-redis</artifactId>    
+	</dependency>	 
+	
+	 <!-- Apache Bean Utils -->	  
+	 <dependency>
+    	<groupId>commons-beanutils</groupId>
+	    <artifactId>commons-beanutils</artifactId>
+	    <version>${beanutils.version}</version>
+	 </dependency>
+
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
@@ -115,7 +119,7 @@
 	<!--flyway Config -->
 	
 		<plugin>
-			<groupId>com.googlecode.flyway</groupId>
+			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-maven-plugin</artifactId>
 			<configuration>
 				<initOnMigrate>true</initOnMigrate>
