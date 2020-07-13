@@ -1,4 +1,4 @@
-package com.cervas;
+package com.cervas.config;
 
 import java.time.Duration;
 

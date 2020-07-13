@@ -12,15 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cervas.model.Usuario;
-import com.cervas.repository.Usuarios;
+import com.cervas.repository.Grupos;
 import com.cervas.service.CadastroUsuarioService;
+import com.cervas.service.exception.EmailJaCadastradoException;
+import com.cervas.service.exception.SenhaObrigatoriaUsuarioException;
 
 @Controller
 @RequestMapping("/usuarios")
 public class UsuariosController {
 	
 	@Autowired
-	private Usuarios usuarios;
+	private Grupos grupos;
 	
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
@@ -28,7 +30,7 @@ public class UsuariosController {
 	@GetMapping("/novo")
 	public ModelAndView novo(Usuario usuario) {
 		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");
-		mv.addObject("usuarios", usuarios.findAll());
+		mv.addObject("grupos", grupos.findAll());
 		return mv;
 	}
 	
@@ -37,14 +39,18 @@ public class UsuariosController {
 		if (result.hasErrors()) {
 			return novo(usuario);
 		}
-		
+
 		try {
 			cadastroUsuarioService.salvar(usuario);
-			attributes.addFlashAttribute("messages" , "Cadastrado com sucesso");
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (EmailJaCadastradoException e) {
+			result.rejectValue("email", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		} catch (SenhaObrigatoriaUsuarioException e) {
+			result.rejectValue("senha", e.getMessage(), e.getMessage());
+			return novo(usuario);
 		}
 
-		return new ModelAndView();
+		attributes.addFlashAttribute("mensagem" , "Cadastrado com sucesso");
+		return new ModelAndView("redirect:/usuarios/novo");
 	}
 }
