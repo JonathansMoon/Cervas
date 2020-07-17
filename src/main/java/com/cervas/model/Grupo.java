@@ -18,38 +18,42 @@ import javax.validation.constraints.NotBlank;
 public class Grupo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
+
 	@NotBlank(message = "Nome do grupo é obrigatório")
 	private String nome;
-	
+
 	@ManyToMany
-	@JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(name = "codigo_grupo")
-				, inverseJoinColumns = @JoinColumn(name = "codigo permissao"))
+	@JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(name = "codigo_grupo"), inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
 	private List<Permissao> permissoes;
-	
+
 	public Long getCodigo() {
 		return codigo;
 	}
+
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public List<Permissao> getPermissoes() {
 		return permissoes;
 	}
+
 	public void setPermissoes(List<Permissao> permissoes) {
 		this.permissoes = permissoes;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,6 +62,7 @@ public class Grupo implements Serializable {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -79,5 +84,5 @@ public class Grupo implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

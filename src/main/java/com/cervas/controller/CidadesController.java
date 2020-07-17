@@ -42,30 +42,30 @@ public class CidadesController {
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
 
-	@RequestMapping("/novo")
-	public ModelAndView novo(Cidade cidade) {
+	@RequestMapping("/nova")
+	public ModelAndView nova(Cidade cidade) {
 		ModelAndView mv = new ModelAndView("cidade/CadastroCidade");
 		mv.addObject("estados", estados.findAll());
 		return mv;
 	}
 
-	@PostMapping("/novo")
+	@PostMapping("/nova")
 	@CacheEvict(value = "cidades", key = "#cidade.estado.codigo", condition = "#cidade.temEstado()")
 	public ModelAndView salvar(@Valid Cidade cidade, BindingResult result, RedirectAttributes attributes) {
 
 		if (result.hasErrors()) {
-			return novo(cidade);
+			return nova(cidade);
 		}
 
 		try {
 			cadastroCidadeService.salvar(cidade);
 		} catch (EstadoJaPossuiCidadeCadastradaException e) {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
-			return novo(cidade);
+			return nova(cidade);
 		}
 
 		attributes.addFlashAttribute("mensagem", "Cidade criada com sucesso!");
-		return new ModelAndView("redirect:/cidades/novo");
+		return new ModelAndView("redirect:/cidades/nova");
 	}
 
 	@GetMapping()
