@@ -36,7 +36,7 @@
         <!--Corpo do formulário-->
         <div class="container-fluid">
 
-            <form method="POST" th:object="${estilo}"  class="form-vertical  js-form-loading">
+            <form method="POST" th:object="${estilo}" th:action="@{/estilos/novo}" class="form-vertical  js-form-loading">
         
                 <!--Bloco de alerta de Erro-->
                 <th:block th:include="fragments/MensagensErroValidacao"></th:block>

@@ -15,15 +15,25 @@
 			this.containerFotoCerveja = $('.js-container-foto-cerveja');
 
 			this.inputUploud = $('#js-upload');
+			
 		}
 
 		//Inicio o método
 		UploadFoto.prototype.iniciar = function () {
+			var token = $('input[name=_csrf]').val();
+			var header = $('input[name=_csrf_header]').val();
 			var settings = {
 				url: 'fotos',
 				type:'json',
 				allow: '*.(jpg|jpeg|png)',
 				multiple: false,
+				
+				beforeSend: function(jqXHR) {
+					jqXHR.setRequestHeader(header, token);
+                },
+                error: function(request, status, error) {
+                    alert(request + " > " + status + " > " + error + header + token);
+                },
 
 				loadStart: function (e) {
 					bar.removeAttribute('hidden');
