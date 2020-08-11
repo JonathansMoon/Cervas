@@ -52,7 +52,9 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
 			.accessDeniedPage("/403")
 			.and()
 			.sessionManagement()
-			.invalidSessionUrl("/login");
+			.invalidSessionUrl("/login")
+			.maximumSessions(1)
+			.expiredUrl("/login");
 	}
 	
 	@Bean

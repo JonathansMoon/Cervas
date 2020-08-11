@@ -38,6 +38,7 @@ Cervas.EstiloCadastroRapido = (function(){
 			method		:	'POST',
 			contentType	: 	'application/json',
 			data		:	JSON.stringify({'nome': nomeEstilo}),
+			beforeSend	: 	adicionarCsrfToken,
 			error		:	onErroSalvandoEstilo.bind(this),
 			success		:	onEstiloSalvo.bind(this)
 		});
@@ -50,6 +51,12 @@ Cervas.EstiloCadastroRapido = (function(){
 		console.log(mensagemErro);
 		this.meuForm.find('.form-group').addClass('has-error');
 	}
+	
+	function adicionarCsrfToken(xhr) {
+		var token = $('input[name=_csrf]').val();
+		var header = $('input[name=_csrf_header]').val();
+        xhr.setRequestHeader(header, token);
+    }
 	
 	// Salva e adiciona um novo estilo ao select combo
 	function onEstiloSalvo(estilo) {
